@@ -1,6 +1,8 @@
 package org.moloshnikov.votingsystem.model;
 
-public abstract class AbstractBaseEntity {
+import org.springframework.data.domain.Persistable;
+
+public abstract class AbstractBaseEntity implements Persistable<Integer> {
     protected Integer id;
 
     protected AbstractBaseEntity() {
@@ -12,6 +14,10 @@ public abstract class AbstractBaseEntity {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public boolean isNew() {
