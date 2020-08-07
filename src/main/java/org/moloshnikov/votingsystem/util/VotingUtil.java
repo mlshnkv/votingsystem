@@ -1,9 +1,9 @@
 package org.moloshnikov.votingsystem.util;
 
-import org.moloshnikov.votingsystem.model.Restaurant;
+import org.moloshnikov.votingsystem.model.DayMenu;
 import org.moloshnikov.votingsystem.model.User;
 import org.moloshnikov.votingsystem.model.Vote;
-import org.moloshnikov.votingsystem.to.RestaurantTo;
+import org.moloshnikov.votingsystem.to.DayMenuTo;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -13,21 +13,21 @@ import java.util.stream.Collectors;
 
 public class VotingUtil {
 
-    public static List<RestaurantTo> getTos(Collection<Vote> votes) {
-        Map<Restaurant, Integer> votesByRestaurant = votes.stream()
+    public static List<DayMenuTo> getTos(Collection<Vote> votes) {
+        Map<DayMenu, Integer> votesByRestaurant = votes.stream()
                 .collect(
-                        Collectors.groupingBy(Vote::getRestaurant, Collectors.summingInt(value -> 1))
+                        Collectors.groupingBy(Vote::getDayMenu, Collectors.summingInt(value -> 1))
                 );
         return votesByRestaurant.keySet().stream()
-                .map(restaurant -> createTo(restaurant, votesByRestaurant.get(restaurant)))
+                .map(dayMenu -> createTo(dayMenu, votesByRestaurant.get(dayMenu)))
                 .collect(Collectors.toList());
     }
 
-    public static RestaurantTo createTo(Restaurant restaurant, int votes) {
-        return new RestaurantTo(restaurant.getName(), restaurant.getMenu(), votes);
+    public static DayMenuTo createTo(DayMenu dayMenu, int votes) {
+        return new DayMenuTo(dayMenu.getDate(), dayMenu.getRestaurant(), dayMenu.getDayMenu(), votes);
     }
 
-    public static Vote makeVote(Restaurant restaurant, User user) {
-        return new Vote(LocalDateTime.now(), restaurant, user);
+    public static Vote makeVote(DayMenu dayMenu, User user) {
+        return new Vote(LocalDateTime.now(), dayMenu, user);
     }
 }
