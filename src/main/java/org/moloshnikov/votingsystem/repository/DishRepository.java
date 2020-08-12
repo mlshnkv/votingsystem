@@ -1,17 +1,17 @@
 package org.moloshnikov.votingsystem.repository;
 
-import org.moloshnikov.votingsystem.model.Vote;
+import org.moloshnikov.votingsystem.model.Dish;
 
 import java.util.List;
 
-public interface VoteRepository {
-    Vote save(Vote vote);
+public interface DishRepository {
+    Dish save(Dish dish);
 
     // false if not found
     boolean delete(int id);
 
     // null if not found
-    Vote get(int id);
+    Dish get(int id);
 
-    List<Vote> getAll();
+    List<Dish> getAll();
 }

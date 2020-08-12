@@ -2,7 +2,7 @@ import org.moloshnikov.votingsystem.model.DayMenu;
 import org.moloshnikov.votingsystem.model.Dish;
 import org.moloshnikov.votingsystem.model.Restaurant;
 import org.moloshnikov.votingsystem.model.User;
-import org.moloshnikov.votingsystem.repository.VoteRepository;
+import org.moloshnikov.votingsystem.repository.VoteRepositoryImpl;
 import org.moloshnikov.votingsystem.to.DayMenuTo;
 import org.moloshnikov.votingsystem.util.VotingUtil;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        VoteRepository voteRepository = new VoteRepository();
+        VoteRepositoryImpl voteRepository = new VoteRepositoryImpl();
         Restaurant restaurant = new Restaurant("Биша-Муда");
         Restaurant restaurant1 = new Restaurant("Ваша-Наша");
 
@@ -42,13 +42,13 @@ public class Main {
         dayMenu2.addDish(restaurant1.getMenu().get(0));
         dayMenu2.addDish(restaurant1.getMenu().get(1));
 
-        voteRepository.putVote(VotingUtil.makeVote(dayMenu1, user0));
-        voteRepository.putVote(VotingUtil.makeVote(dayMenu1, user1));
-        voteRepository.putVote(VotingUtil.makeVote(dayMenu1, user2));
-        voteRepository.putVote(VotingUtil.makeVote(dayMenu1, user3));
-        voteRepository.putVote(VotingUtil.makeVote(dayMenu1, user4));
-        voteRepository.putVote(VotingUtil.makeVote(dayMenu2, user5));
-        voteRepository.putVote(VotingUtil.makeVote(dayMenu2, user6));
+        voteRepository.save(VotingUtil.makeVote(dayMenu1, user0));
+        voteRepository.save(VotingUtil.makeVote(dayMenu1, user1));
+        voteRepository.save(VotingUtil.makeVote(dayMenu1, user2));
+        voteRepository.save(VotingUtil.makeVote(dayMenu1, user3));
+        voteRepository.save(VotingUtil.makeVote(dayMenu1, user4));
+        voteRepository.save(VotingUtil.makeVote(dayMenu2, user5));
+        voteRepository.save(VotingUtil.makeVote(dayMenu2, user6));
 
         List<DayMenuTo> listOfRestaurantTo = VotingUtil.getTos(voteRepository.getVotes());
 
