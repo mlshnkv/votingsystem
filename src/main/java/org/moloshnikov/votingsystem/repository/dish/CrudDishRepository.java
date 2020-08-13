@@ -1,19 +1,19 @@
-package org.moloshnikov.votingsystem.repository.datajpa;
+package org.moloshnikov.votingsystem.repository.dish;
 
-import org.moloshnikov.votingsystem.model.Restaurant;
+import org.moloshnikov.votingsystem.model.Dish;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly = true)
-public interface CrudRestaurantRepository extends JpaRepository<Restaurant, Integer> {
+public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
 
     @Modifying
     @Transactional
-    @Query("DELETE FROM Restaurant r WHERE r.id=:id")
+    @Query("DELETE FROM Dish d WHERE d.id=:id")
     int delete(@Param("id") int id);
 
-
+    @Query("SELECT d FROM Dish d JOIN FETCH d.dayMenu WHERE d.id = ?1")
+    Dish getWithDayMenu(@Param("id") int id);
 }

@@ -25,7 +25,7 @@ public class Vote extends AbstractBaseEntity{
     private DayMenu dayMenu;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
 //    @NotNull

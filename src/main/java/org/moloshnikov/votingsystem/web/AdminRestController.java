@@ -1,7 +1,7 @@
 package org.moloshnikov.votingsystem.web;
 
 import org.moloshnikov.votingsystem.model.Restaurant;
-import org.moloshnikov.votingsystem.repository.RestaurantRepository;
+import org.moloshnikov.votingsystem.repository.restaurant.RestaurantRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -47,8 +47,8 @@ public class AdminRestController {
         restaurantRepository.save(restaurant);
     }
 
-//    public User getWithMeals(int id) {
-//        log.info("getWithMeals {}", id);
-//        return service.getWithMeals(id);
-//    }
+    public Restaurant getWithDayMenu(int id) {
+        log.info("getWithMeals {}", id);
+        return restaurantRepository.getWithDayMenu(id);
+    }
 }

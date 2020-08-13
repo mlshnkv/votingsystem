@@ -1,4 +1,4 @@
-package org.moloshnikov.votingsystem.repository;
+package org.moloshnikov.votingsystem.repository.dish;
 
 import org.moloshnikov.votingsystem.model.Dish;
 
@@ -14,4 +14,6 @@ public interface DishRepository {
     Dish get(int id);
 
     List<Dish> getAll();
+
+    Dish getWithDayMenu(int id);
 }

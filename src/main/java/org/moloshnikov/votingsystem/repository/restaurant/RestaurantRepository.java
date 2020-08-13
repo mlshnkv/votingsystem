@@ -1,4 +1,4 @@
-package org.moloshnikov.votingsystem.repository;
+package org.moloshnikov.votingsystem.repository.restaurant;
 
 import org.moloshnikov.votingsystem.model.Restaurant;
 
@@ -15,4 +15,6 @@ public interface RestaurantRepository {
     Restaurant get(int id);
 
     List<Restaurant> getAll();
+
+    Restaurant getWithDayMenu(int id);
 }

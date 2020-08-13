@@ -1,4 +1,4 @@
-package org.moloshnikov.votingsystem.repository;
+package org.moloshnikov.votingsystem.repository.user;
 
 import org.moloshnikov.votingsystem.model.User;
 

@@ -1,4 +1,4 @@
-package org.moloshnikov.votingsystem.repository;
+package org.moloshnikov.votingsystem.repository.daymenu;
 
 import org.moloshnikov.votingsystem.model.DayMenu;
 

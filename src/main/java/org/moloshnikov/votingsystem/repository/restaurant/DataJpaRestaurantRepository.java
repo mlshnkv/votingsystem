@@ -1,7 +1,6 @@
-package org.moloshnikov.votingsystem.repository.datajpa;
+package org.moloshnikov.votingsystem.repository.restaurant;
 
 import org.moloshnikov.votingsystem.model.Restaurant;
-import org.moloshnikov.votingsystem.repository.RestaurantRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -32,5 +31,10 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
     @Override
     public List<Restaurant> getAll() {
         return crudRestaurantRepository.findAll();
+    }
+
+    @Override
+    public Restaurant getWithDayMenu(int id) {
+        return crudRestaurantRepository.getWithDayMenu(id);
     }
 }
