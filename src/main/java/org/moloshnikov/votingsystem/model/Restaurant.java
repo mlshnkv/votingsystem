@@ -1,32 +1,29 @@
 package org.moloshnikov.votingsystem.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import javax.persistence.*;
 import java.util.Set;
+@Entity
+@Table(name = "restaurants")
+public class Restaurant extends AbstractNamedEntity {
 
-public class Restaurant extends AbstractNamedEntity{
-    {
-        menu = new ArrayList<Dish>();
-    }
-
-    private List<Dish> menu;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonManagedReference
     private Set<DayMenu> menus;
 
+    public Restaurant() {
+    }
+
+    public Restaurant(Integer id, String name) {
+        super(id, name);
+    }
+
     public Restaurant(String name) {
-        this.name = name;
+        ;
     }
 
-    public List<Dish> getMenu() {
-        return menu;
-    }
 
-    public void addDishToMenu(Dish dish) {
-        menu.add(dish);
-    }
-
-    public void setMenu(List<Dish> menu) {
-        this.menu = menu;
-    }
 
     public Set<DayMenu> getMenus() {
         return menus;
@@ -38,8 +35,8 @@ public class Restaurant extends AbstractNamedEntity{
 
     @Override
     public String toString() {
-        return "Название ресторана: " +
-                name + "\n" +
-                "Меню: " + menu;
+        return "Restaurant{" +
+                "name='" + name + '\'' +
+                '}';
     }
 }

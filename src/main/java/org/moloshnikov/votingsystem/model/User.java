@@ -1,6 +1,7 @@
 package org.moloshnikov.votingsystem.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -11,10 +12,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.Collection;
-import java.util.Date;
-import java.util.EnumSet;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "users", uniqueConstraints = {@UniqueConstraint(columnNames = "email", name = "users_unique_email_idx")})
@@ -44,6 +42,10 @@ public class User extends AbstractNamedEntity {
 //    @Fetch(FetchMode.SUBSELECT)
     @BatchSize(size = 200)
     private Set<Role> roles;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonManagedReference
+    private List<Vote> votes;
 
     public User() {
     }

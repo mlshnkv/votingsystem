@@ -1,27 +1,52 @@
 package org.moloshnikov.votingsystem.model;
 
-import java.util.ArrayList;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+@Entity
+@Table(name = "day_menus")
 public class DayMenu extends AbstractBaseEntity {
-
-    {
-        dayMenu = new ArrayList<>();
-    }
+    @Column(name = "date", nullable = false, columnDefinition = "timestamp default now()")
+    @NotNull
     private Date date;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
+//    @NotNull
     private Restaurant restaurant;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonManagedReference
     private List<Dish> dayMenu;
 
-    public DayMenu(Date date, Restaurant restaurant) {
-        this.date = date;
-        this.restaurant = restaurant;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<Vote> votes;
+
+    public DayMenu() {
     }
 
-    public DayMenu(Integer id, Date date, Restaurant restaurant) {
+    public DayMenu(@NotNull Date date, Restaurant restaurant, List<Dish> dayMenu) {
+        this.date = date;
+        this.restaurant = restaurant;
+        this.dayMenu = dayMenu;
+    }
+
+    public DayMenu(Integer id, @NotNull Date date, Restaurant restaurant, List<Dish> dayMenu) {
         super(id);
         this.date = date;
         this.restaurant = restaurant;
+        this.dayMenu = dayMenu;
     }
 
     public Date getDate() {
@@ -48,7 +73,11 @@ public class DayMenu extends AbstractBaseEntity {
         this.dayMenu = dayMenu;
     }
 
-    public void addDish(Dish dish) {
-        dayMenu.add(dish);
+    public Set<Vote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Set<Vote> votes) {
+        this.votes = votes;
     }
 }
