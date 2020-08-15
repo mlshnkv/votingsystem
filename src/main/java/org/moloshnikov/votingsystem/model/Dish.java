@@ -1,6 +1,5 @@
 package org.moloshnikov.votingsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
@@ -10,7 +9,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "dishes")
-public class Dish extends AbstractNamedEntity{
+public class Dish extends AbstractNamedEntity {
     @Column(name = "price", nullable = false)
     @Range(min = 10, max = 5000)
     @NotNull
@@ -19,7 +18,7 @@ public class Dish extends AbstractNamedEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "day_menu_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+//    @JsonBackReference
 //    @NotNull
     private DayMenu dayMenu;
 

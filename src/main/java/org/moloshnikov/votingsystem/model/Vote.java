@@ -1,6 +1,5 @@
 package org.moloshnikov.votingsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date_time"}, name = "meals_unique_user_datetime_idx")})
-public class Vote extends AbstractBaseEntity{
+public class Vote extends AbstractBaseEntity {
     @Column(name = "date_time", nullable = false)
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
@@ -20,14 +19,14 @@ public class Vote extends AbstractBaseEntity{
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "day_menu_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+//    @JsonBackReference
 //    @NotNull
     private DayMenu dayMenu;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+//    @JsonBackReference
 //    @NotNull
     private User user;
 

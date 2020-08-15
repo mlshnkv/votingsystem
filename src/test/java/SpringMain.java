@@ -10,7 +10,7 @@ public class SpringMain {
         try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml", "db/spring-db.xml")) {
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             AdminRestaurantController adminRestaurantController = appCtx.getBean(AdminRestaurantController.class);
-            adminRestaurantController.create(new Restaurant(null, "Золотая рыбка"));
+            adminRestaurantController.create(new Restaurant("Золотая рыбка"));
             System.out.println(adminRestaurantController.getAll());
             adminRestaurantController.delete(100019);
             System.out.println(adminRestaurantController.getAll());

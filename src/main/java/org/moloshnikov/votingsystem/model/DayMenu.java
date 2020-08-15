@@ -1,7 +1,5 @@
 package org.moloshnikov.votingsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -21,16 +19,18 @@ public class DayMenu extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+//    @JsonBackReference
 //    @NotNull
     private Restaurant restaurant;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)
+//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+//    @JsonManagedReference
     private List<Dish> dayMenu;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonManagedReference
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)
+//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+//    @JsonManagedReference
     private Set<Vote> votes;
 
     public DayMenu() {

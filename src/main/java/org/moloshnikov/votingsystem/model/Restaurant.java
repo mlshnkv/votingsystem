@@ -1,7 +1,5 @@
 package org.moloshnikov.votingsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
 import javax.persistence.*;
 import java.util.Set;
 
@@ -9,15 +7,11 @@ import java.util.Set;
 @Table(name = "restaurants")
 public class Restaurant extends AbstractNamedEntity {
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE) //, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonManagedReference
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+    //, cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<DayMenu> menus;
 
     public Restaurant() {
-    }
-
-    public Restaurant(Integer id, String name) {
-        super(id, name);
     }
 
     public Restaurant(String name) {
