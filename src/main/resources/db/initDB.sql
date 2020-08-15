@@ -48,7 +48,7 @@ CREATE TABLE dishes
     name        VARCHAR(255) NOT NULL,
     price       INTEGER      NOT NULL,
     day_menu_id INTEGER      NOT NULL,
-    FOREIGN KEY (day_menu_id) REFERENCES day_menus (id)
+    FOREIGN KEY (day_menu_id) REFERENCES day_menus (id) ON DELETE CASCADE
 );
 
 CREATE TABLE votes

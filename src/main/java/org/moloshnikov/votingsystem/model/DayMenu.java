@@ -25,11 +25,11 @@ public class DayMenu extends AbstractBaseEntity {
 //    @NotNull
     private Restaurant restaurant;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)//, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonManagedReference
     private List<Dish> dayMenu;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)//, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonManagedReference
     private Set<Vote> votes;
 

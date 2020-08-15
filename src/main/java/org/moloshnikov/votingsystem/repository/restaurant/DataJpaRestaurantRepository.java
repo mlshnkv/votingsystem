@@ -25,7 +25,7 @@ public class DataJpaRestaurantRepository implements RestaurantRepository {
 
     @Override
     public Restaurant get(int id) {
-        return crudRestaurantRepository.getOne(id);
+        return crudRestaurantRepository.findById(id).orElse(null);
     }
 
     @Override
