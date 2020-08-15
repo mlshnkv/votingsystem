@@ -58,7 +58,9 @@ public class AdminRestaurantController {
         restaurantRepository.delete(id);
     }
 
-    public void update(Restaurant restaurant, int id) {
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void update(@RequestBody Restaurant restaurant, @PathVariable int id) {
         log.info("update {} with id={}", restaurant, id);
         assureIdConsistent(restaurant, id);
         restaurantRepository.save(restaurant);
