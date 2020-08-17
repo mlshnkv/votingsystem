@@ -12,8 +12,9 @@ VALUES ('User', 'user@yandex.ru', 'password'),
 
 INSERT INTO USER_ROLES (role, user_id)
 VALUES ('USER', 100000),
-       ('ADMIN', 100001),
-       ('USER', 100001);
+       ('USER', 100001),
+       ('ADMIN', 100002),
+       ('USER', 100002);
 
 INSERT INTO RESTAURANTS (NAME)
 VALUES ('Ракушка'),
@@ -36,3 +37,8 @@ VALUES ('Рыба', 100, 100005),
        ('Суп', 60, 100006),
        ('Блины', 115, 100006),
        ('Оладьи', 120, 100006);
+
+INSERT INTO VOTES  (DATE_TIME, USER_ID, DAY_MENU_ID)
+VALUES ('2020-08-16 10:00:00', 100000, 100005),
+       ('2020-08-16 10:00:00', 100001, 100006),
+       ('2020-08-16 10:00:00', 100002, 100005);

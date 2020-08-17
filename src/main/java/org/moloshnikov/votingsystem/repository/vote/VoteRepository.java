@@ -5,6 +5,7 @@ import org.moloshnikov.votingsystem.model.Vote;
 import java.util.List;
 
 public interface VoteRepository {
+
     Vote save(Vote vote);
 
     // false if not found
@@ -12,6 +13,8 @@ public interface VoteRepository {
 
     // null if not found
     Vote get(int id);
+
+    List<Vote> getAllOfTodayVotes();
 
     List<Vote> getAll();
 }

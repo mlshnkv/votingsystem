@@ -1,35 +1,51 @@
 package org.moloshnikov.votingsystem.to;
 
 import org.moloshnikov.votingsystem.model.Dish;
-import org.moloshnikov.votingsystem.model.Restaurant;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 public class DayMenuTo {
 
-    {
-        dayMenu = new ArrayList<>();
-    }
+    private final LocalDate date;
+    private final String restaurant;
+    private final List<Dish> dayMenu;
+    private final int votes;
 
-    private Date date;
-    private Restaurant restaurant;
-    private List<Dish> dayMenu;
-    private int votes;
-
-    public DayMenuTo(Date date, Restaurant restaurant, List<Dish> dayMenu, int votes) {
+    public DayMenuTo(LocalDate date, String restaurant, List<Dish> dayMenu, int votes) {
         this.date = date;
         this.restaurant = restaurant;
         this.dayMenu = dayMenu;
         this.votes = votes;
     }
 
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public String getRestaurant() {
+        return restaurant;
+    }
+
+    public List<Dish> getDayMenu() {
+        return dayMenu;
+    }
+
+    public int getVotes() {
+        return votes;
+    }
+
     @Override
     public String toString() {
-        return "Ресторан: " + restaurant.getName() + ";\n"
+        return "Ресторан: " + restaurant + ";\n"
                 + "Меню дня: " + "\n"
                 + dayMenu + "\n"
                 + "Количаство голосов: " + votes;
     }
+
+
+//    @Override
+//    public String toString() {
+//        return "Ресторан: " + restaurant + " - " + votes;
+//    }
 }

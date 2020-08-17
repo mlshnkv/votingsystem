@@ -1,11 +1,12 @@
 package org.moloshnikov.votingsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -14,9 +15,9 @@ import java.util.Set;
 public class DayMenu extends AbstractBaseEntity {
     @Column(name = "date", nullable = false, columnDefinition = "timestamp default now()")
     @NotNull
-    private Date date;
+    private LocalDate date;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
 //    @JsonBackReference
@@ -25,10 +26,10 @@ public class DayMenu extends AbstractBaseEntity {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)
 //, cascade = CascadeType.REMOVE, orphanRemoval = true)
-//    @JsonManagedReference
+    @JsonManagedReference
     private List<Dish> dayMenu;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)
 //, cascade = CascadeType.REMOVE, orphanRemoval = true)
 //    @JsonManagedReference
     private Set<Vote> votes;
@@ -36,24 +37,24 @@ public class DayMenu extends AbstractBaseEntity {
     public DayMenu() {
     }
 
-    public DayMenu(@NotNull Date date, Restaurant restaurant, List<Dish> dayMenu) {
+    public DayMenu(@NotNull LocalDate date, Restaurant restaurant, List<Dish> dayMenu) {
         this.date = date;
         this.restaurant = restaurant;
         this.dayMenu = dayMenu;
     }
 
-    public DayMenu(Integer id, @NotNull Date date, Restaurant restaurant, List<Dish> dayMenu) {
+    public DayMenu(Integer id, @NotNull LocalDate date, Restaurant restaurant, List<Dish> dayMenu) {
         super(id);
         this.date = date;
         this.restaurant = restaurant;
         this.dayMenu = dayMenu;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

@@ -24,7 +24,7 @@ public class VotingUtil {
     }
 
     public static DayMenuTo createTo(DayMenu dayMenu, int votes) {
-        return new DayMenuTo(dayMenu.getDate(), dayMenu.getRestaurant(), dayMenu.getDayMenu(), votes);
+        return new DayMenuTo(dayMenu.getDate(), dayMenu.getRestaurant().getName(), dayMenu.getDayMenu(), votes);
     }
 
     public static Vote makeVote(DayMenu dayMenu, User user) {

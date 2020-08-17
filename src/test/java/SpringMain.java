@@ -1,5 +1,4 @@
-import org.moloshnikov.votingsystem.model.Restaurant;
-import org.moloshnikov.votingsystem.web.AdminRestaurantController;
+import org.moloshnikov.votingsystem.web.DayMenuController;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -7,13 +6,13 @@ import java.util.Arrays;
 
 public class SpringMain {
     public static void main(String[] args) {
-        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml", "db/spring-db.xml")) {
+        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("db/spring-db.xml", "spring/spring-mvc.xml")) {
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
-            AdminRestaurantController adminRestaurantController = appCtx.getBean(AdminRestaurantController.class);
-            adminRestaurantController.create(new Restaurant("Золотая рыбка"));
-            System.out.println(adminRestaurantController.getAll());
-            adminRestaurantController.delete(100019);
-            System.out.println(adminRestaurantController.getAll());
+            DayMenuController dayMenuController = appCtx.getBean(DayMenuController.class);
+            System.out.println(dayMenuController.getAllOfToday());
+
+            // adminRestaurantController.delete(100019);
+
 //            System.out.println(adminRestaurantController.get());
 
 //            MealRestController mealController = appCtx.getBean(MealRestController.class);
