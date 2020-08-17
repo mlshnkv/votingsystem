@@ -2,6 +2,7 @@ package org.moloshnikov.votingsystem.web;
 
 import org.moloshnikov.votingsystem.model.DayMenu;
 import org.moloshnikov.votingsystem.model.Vote;
+import org.moloshnikov.votingsystem.repository.daymenu.DayMenuRepository;
 import org.moloshnikov.votingsystem.repository.vote.VoteRepository;
 import org.moloshnikov.votingsystem.to.DayMenuTo;
 import org.moloshnikov.votingsystem.util.SecurityUtil;
@@ -24,16 +25,16 @@ public class DayMenuController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
     static final String REST_URL = "/profile/voting";
 
-    private final VoteRepository voteRepository;
+    private final DayMenuRepository dayMenuRepository;
 
-    public DayMenuController(VoteRepository voteRepository) {
-        this.voteRepository = voteRepository;
+    public DayMenuController(DayMenuRepository voteRepository) {
+        this.dayMenuRepository = voteRepository;
     }
 
     @GetMapping
     public List<DayMenuTo> getAllOfToday() {
         log.info("getAll");
-        return VotingUtil.getTos(voteRepository.getAllOfTodayVotes());
+        return VotingUtil.getTos(dayMenuRepository.getAllByDate(localDateToday));
     }
 
     @PostMapping

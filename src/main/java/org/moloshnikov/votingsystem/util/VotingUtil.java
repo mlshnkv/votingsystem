@@ -8,18 +8,14 @@ import org.moloshnikov.votingsystem.to.DayMenuTo;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class VotingUtil {
 
-    public static List<DayMenuTo> getTos(Collection<Vote> votes) {
-        Map<DayMenu, Integer> votesByRestaurant = votes.stream()
-                .collect(
-                        Collectors.groupingBy(Vote::getDayMenu, Collectors.summingInt(value -> 1))
-                );
-        return votesByRestaurant.keySet().stream()
-                .map(dayMenu -> createTo(dayMenu, votesByRestaurant.get(dayMenu)))
+    public static List<DayMenuTo> getTos(Collection<DayMenu> dayMenus) {
+
+        return dayMenus.stream()
+                .map(dayMenu -> createTo(dayMenu, dayMenu.getVotes().size()))
                 .collect(Collectors.toList());
     }
 

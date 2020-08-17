@@ -29,7 +29,7 @@ public class DayMenu extends AbstractBaseEntity {
     @JsonManagedReference
     private List<Dish> dayMenu;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)
 //, cascade = CascadeType.REMOVE, orphanRemoval = true)
 //    @JsonManagedReference
     private Set<Vote> votes;

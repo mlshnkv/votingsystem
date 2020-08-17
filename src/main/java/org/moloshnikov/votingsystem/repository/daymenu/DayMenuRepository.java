@@ -2,6 +2,7 @@ package org.moloshnikov.votingsystem.repository.daymenu;
 
 import org.moloshnikov.votingsystem.model.DayMenu;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface DayMenuRepository {
@@ -15,4 +16,6 @@ public interface DayMenuRepository {
 
 
     List<DayMenu> getAll();
+
+    List<DayMenu> getAllByDate(LocalDate localDate);
 }
