@@ -9,6 +9,7 @@ import java.util.List;
 public class DataJpaVoteRepository implements VoteRepository {
     private final CrudVotesRepository crudVotesRepository;
 
+
     public DataJpaVoteRepository(CrudVotesRepository crudVotesRepository) {
         this.crudVotesRepository = crudVotesRepository;
     }

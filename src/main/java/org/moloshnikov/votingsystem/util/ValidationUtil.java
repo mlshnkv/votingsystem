@@ -1,10 +1,13 @@
 package org.moloshnikov.votingsystem.util;
 
 import org.moloshnikov.votingsystem.HasId;
+import org.moloshnikov.votingsystem.util.exception.NotFoundException;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class ValidationUtil {
     private static final Validator validator;
@@ -25,6 +28,14 @@ public class ValidationUtil {
             bean.setId(id);
         } else if (bean.id() != id) {
             throw new IllegalArgumentException(bean + " must be with id=" + id);
+        }
+    }
+
+    public static final LocalTime DEAD_LINE = LocalTime.of(11, 0);
+
+    public static void checkDeadLine(LocalTime taken) {
+        if (taken.isAfter(DEAD_LINE)) {
+            throw new NotFoundException(String.format("Sorry, after %s you cannot vote ", DEAD_LINE));
         }
     }
 }
