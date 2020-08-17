@@ -16,7 +16,7 @@ public class DataJpaVoteRepository implements VoteRepository {
 
     @Override
     public Vote save(Vote vote) {
-        return null;
+        return crudVotesRepository.save(vote);
     }
 
     @Override

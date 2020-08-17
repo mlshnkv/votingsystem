@@ -16,7 +16,7 @@ public class Vote extends AbstractBaseEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime localDateTime;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "day_menu_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
 //    @JsonBackReference

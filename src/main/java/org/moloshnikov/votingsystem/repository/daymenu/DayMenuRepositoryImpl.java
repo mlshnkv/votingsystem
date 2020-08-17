@@ -26,7 +26,7 @@ public class DayMenuRepositoryImpl implements DayMenuRepository {
 
     @Override
     public DayMenu get(int id) {
-        return null;
+        return crudMenuRepository.findById(id).orElse(null);
     }
 
     @Override

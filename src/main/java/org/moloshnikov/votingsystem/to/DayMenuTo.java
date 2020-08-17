@@ -1,18 +1,20 @@
 package org.moloshnikov.votingsystem.to;
 
 import org.moloshnikov.votingsystem.model.Dish;
+import org.moloshnikov.votingsystem.model.Restaurant;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public class DayMenuTo {
-
+    private final int id;
     private final LocalDate date;
-    private final String restaurant;
+    private final Restaurant restaurant;
     private final List<Dish> dayMenu;
     private final int votes;
 
-    public DayMenuTo(LocalDate date, String restaurant, List<Dish> dayMenu, int votes) {
+    public DayMenuTo(int id, LocalDate date, Restaurant restaurant, List<Dish> dayMenu, int votes) {
+        this.id = id;
         this.date = date;
         this.restaurant = restaurant;
         this.dayMenu = dayMenu;
@@ -23,7 +25,7 @@ public class DayMenuTo {
         return date;
     }
 
-    public String getRestaurant() {
+    public Restaurant getRestaurant() {
         return restaurant;
     }
 
