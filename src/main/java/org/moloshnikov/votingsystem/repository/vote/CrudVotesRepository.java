@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface CrudVotesRepository extends JpaRepository<Vote, Integer> {
@@ -17,7 +18,10 @@ public interface CrudVotesRepository extends JpaRepository<Vote, Integer> {
     int delete(@Param("id") int id, @Param("userId") int userId);
 
     //    @EntityGraph(attributePaths = {"meals"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT v FROM Vote v")
-    List<Vote> getAllOfTodayVotes();
+    @Query("SELECT v FROM Vote v where v.localDate=:date")
+    List<Vote> getAllByDay(@Param("date") LocalDate localDate);
+
+    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId AND v.localDate=:date")
+    Vote getByUserIdDate(@Param("userId") int userId, @Param("date") LocalDate date);
 
 }

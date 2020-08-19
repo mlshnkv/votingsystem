@@ -3,6 +3,7 @@ package org.moloshnikov.votingsystem.repository.vote;
 import org.moloshnikov.votingsystem.model.Vote;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -30,9 +31,14 @@ public class DataJpaVoteRepository implements VoteRepository {
     }
 
     @Override
-    public List<Vote> getAllOfTodayVotes() {
-        //return crudVotesRepository.getAllOfTodayVotes();
-        return crudVotesRepository.findAll();
+    public Vote getByUserIdDate(int userId, LocalDate localDate) {
+        Vote vote = crudVotesRepository.getByUserIdDate(userId, localDate);
+        return vote;
+    }
+
+    @Override
+    public List<Vote> getAllByDay(LocalDate localDate) {
+        return crudVotesRepository.getAllByDay(localDate);
     }
 
     @Override

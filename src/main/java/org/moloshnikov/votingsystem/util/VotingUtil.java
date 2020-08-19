@@ -4,8 +4,10 @@ import org.moloshnikov.votingsystem.model.DayMenu;
 import org.moloshnikov.votingsystem.model.User;
 import org.moloshnikov.votingsystem.model.Vote;
 import org.moloshnikov.votingsystem.to.DayMenuTo;
+import org.moloshnikov.votingsystem.util.exception.NotFoundException;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,10 +22,16 @@ public class VotingUtil {
     }
 
     public static DayMenuTo createTo(DayMenu dayMenu, int votes) {
-        return new DayMenuTo(dayMenu.getId(),dayMenu.getDate(), dayMenu.getRestaurant(), dayMenu.getDayMenu(), votes);
+        return new DayMenuTo(dayMenu.getId(), dayMenu.getDate(), dayMenu.getRestaurant(), dayMenu.getDayMenu(), votes);
     }
 
     public static Vote makeVote(DayMenu dayMenu, User user) {
-        return new Vote(LocalDateTime.now(), dayMenu, user);
+        return new Vote(LocalDate.now(), LocalTime.now(), dayMenu, user);
+    }
+
+    public static void checkMenuAvailability(List<DayMenu> menuList, DayMenu dayMenu) {
+        if (!menuList.contains(dayMenu)){
+            throw new NotFoundException("Sorry, this option was not found or does not exist");
+        }
     }
 }

@@ -81,4 +81,15 @@ public class DayMenu extends AbstractBaseEntity {
     public void setVotes(Set<Vote> votes) {
         this.votes = votes;
     }
+
+    @Override
+    public String toString() {
+        return "DayMenu{" +
+                "date=" + date +
+                ", restaurant=" + restaurant +
+                ", dayMenu=" + dayMenu +
+                ", votes=" + votes +
+                ", id=" + id +
+                '}';
+    }
 }

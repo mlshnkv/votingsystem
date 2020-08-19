@@ -31,7 +31,7 @@ public class ValidationUtil {
         }
     }
 
-    public static final LocalTime DEAD_LINE = LocalTime.of(11, 0);
+    public static final LocalTime DEAD_LINE = LocalTime.of(17, 0);
 
     public static void checkDeadLine(LocalTime taken) {
         if (taken.isAfter(DEAD_LINE)) {
