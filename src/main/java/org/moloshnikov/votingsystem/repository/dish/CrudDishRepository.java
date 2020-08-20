@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
 
     @Modifying
@@ -16,4 +18,7 @@ public interface CrudDishRepository extends JpaRepository<Dish, Integer> {
 
     @Query("SELECT d FROM Dish d JOIN FETCH d.dayMenu WHERE d.id = ?1")
     Dish getWithDayMenu(@Param("id") int id);
+
+    @Query("SELECT d FROM Dish d WHERE d.dayMenu.id=:id")
+    List<Dish> getByDayMenu(@Param("id") int id);
 }

@@ -16,4 +16,6 @@ public interface DishRepository {
     List<Dish> getAll();
 
     Dish getWithDayMenu(int id);
+
+    List<Dish> getByDayMenu(int id);
 }

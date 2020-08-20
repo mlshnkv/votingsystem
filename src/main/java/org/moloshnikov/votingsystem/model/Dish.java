@@ -1,7 +1,6 @@
 package org.moloshnikov.votingsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
@@ -11,7 +10,6 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "dishes")
-@JsonIgnoreProperties(value = {"id"})
 public class Dish extends AbstractNamedEntity {
     @Column(name = "price", nullable = false)
     @Range(min = 10, max = 5000)

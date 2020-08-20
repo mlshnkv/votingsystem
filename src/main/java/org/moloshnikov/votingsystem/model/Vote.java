@@ -36,7 +36,7 @@ public class Vote extends AbstractBaseEntity {
     private DayMenu dayMenu;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id", nullable = false, updatable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference(value = "user-votes")
 //    @NotNull
@@ -98,7 +98,7 @@ public class Vote extends AbstractBaseEntity {
         return "Vote{" +
                 "localDate=" + localDate +
                 ", localTime=" + localTime +
-                ", dayMenu=" + dayMenu +
+                ", dayMenu=" + dayMenu.id +
                 ", user=" + user +
                 ", id=" + id +
                 '}';

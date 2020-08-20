@@ -17,12 +17,12 @@ public class VotingUtil {
     public static List<DayMenuTo> getTos(Collection<DayMenu> dayMenus) {
 
         return dayMenus.stream()
-                .map(dayMenu -> createTo(dayMenu, dayMenu.getVotes().size()))
+                .map(VotingUtil::createTo)
                 .collect(Collectors.toList());
     }
 
-    public static DayMenuTo createTo(DayMenu dayMenu, int votes) {
-        return new DayMenuTo(dayMenu.getId(), dayMenu.getDate(), dayMenu.getRestaurant(), dayMenu.getDayMenu(), votes);
+    public static DayMenuTo createTo(DayMenu dayMenu) {
+        return new DayMenuTo(dayMenu.getId(), dayMenu.getDate(), dayMenu.getRestaurant(), dayMenu.getDayMenu(), dayMenu.getVotes().size());
     }
 
     public static Vote makeVote(DayMenu dayMenu, User user) {
@@ -30,7 +30,7 @@ public class VotingUtil {
     }
 
     public static void checkMenuAvailability(List<DayMenu> menuList, DayMenu dayMenu) {
-        if (!menuList.contains(dayMenu)){
+        if (!menuList.contains(dayMenu)) {
             throw new NotFoundException("Sorry, this option was not found or does not exist");
         }
     }

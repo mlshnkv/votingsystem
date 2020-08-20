@@ -21,12 +21,12 @@ public class DayMenuRepositoryImpl implements DayMenuRepository {
 
     @Override
     public boolean delete(int id) {
-        return false;
+        return crudMenuRepository.delete(id) != 0;
     }
 
     @Override
     public DayMenu get(int id) {
-        return crudMenuRepository.findById(id).orElse(null);
+        return crudMenuRepository.get(id);
     }
 
     @Override

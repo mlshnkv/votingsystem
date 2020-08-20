@@ -37,4 +37,8 @@ public class DataJpaDIshRepository implements DishRepository {
     public Dish getWithDayMenu(int id) {
         return crudDishRepository.getWithDayMenu(id);
     }
+
+    public List<Dish> getByDayMenu(int id) {
+        return crudDishRepository.getByDayMenu(id);
+    }
 }
