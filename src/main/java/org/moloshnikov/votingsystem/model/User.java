@@ -1,6 +1,7 @@
 package org.moloshnikov.votingsystem.model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.BatchSize;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -43,7 +44,7 @@ public class User extends AbstractNamedEntity {
     private Set<Role> roles;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-//    @JsonManagedReference
+    @JsonManagedReference(value = "user-votes")
     private List<Vote> votes;
 
     public User() {

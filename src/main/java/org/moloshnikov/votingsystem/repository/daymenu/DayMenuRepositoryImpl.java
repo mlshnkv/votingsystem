@@ -16,7 +16,7 @@ public class DayMenuRepositoryImpl implements DayMenuRepository {
 
     @Override
     public DayMenu save(DayMenu dayMenu) {
-        return null;
+        return crudMenuRepository.save(dayMenu);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class DayMenuRepositoryImpl implements DayMenuRepository {
 
     @Override
     public List<DayMenu> getAll() {
-        return null;
+        return crudMenuRepository.findAll();
     }
 
     @Override

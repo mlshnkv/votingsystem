@@ -1,4 +1,3 @@
-import org.moloshnikov.votingsystem.web.DayMenuController;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
@@ -8,8 +7,7 @@ public class SpringMain {
     public static void main(String[] args) {
         try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("db/spring-db.xml", "spring/spring-mvc.xml")) {
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
-            DayMenuController dayMenuController = appCtx.getBean(DayMenuController.class);
-            System.out.println(dayMenuController.getAllOfToday());
+
 
             // adminRestaurantController.delete(100019);
 

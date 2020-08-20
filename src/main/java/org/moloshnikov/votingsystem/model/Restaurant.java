@@ -1,6 +1,7 @@
 package org.moloshnikov.votingsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -12,6 +13,7 @@ public class Restaurant extends AbstractNamedEntity {
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE)
     //, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @JsonManagedReference(value = "restaurant-dayMenu")
     private Set<DayMenu> menus;
 
     public Restaurant() {

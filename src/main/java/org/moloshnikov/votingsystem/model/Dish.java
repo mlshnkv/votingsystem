@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "dishes")
-@JsonIgnoreProperties(value = { "id" })
+@JsonIgnoreProperties(value = {"id"})
 public class Dish extends AbstractNamedEntity {
     @Column(name = "price", nullable = false)
     @Range(min = 10, max = 5000)
@@ -21,7 +21,7 @@ public class Dish extends AbstractNamedEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "day_menu_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference
+    @JsonBackReference(value = "dayMenu-dish")
 //    @NotNull
     private DayMenu dayMenu;
 

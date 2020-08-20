@@ -1,5 +1,6 @@
 package org.moloshnikov.votingsystem.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -7,7 +8,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -18,12 +18,12 @@ public class Vote extends AbstractBaseEntity {
 //    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
 //    private LocalDateTime localDateTime;
 
-    @Column(name = "date",nullable = false)
+    @Column(name = "date", nullable = false)
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate localDate;
 
-    @Column(name = "time",nullable = false)
+    @Column(name = "time", nullable = false)
     @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime localTime;
@@ -31,14 +31,14 @@ public class Vote extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "day_menu_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-//    @JsonBackReference
+    @JsonBackReference(value = "dayMenu-vote")
 //    @NotNull
     private DayMenu dayMenu;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-//    @JsonBackReference
+    @JsonBackReference(value = "user-votes")
 //    @NotNull
     private User user;
 
@@ -60,27 +60,6 @@ public class Vote extends AbstractBaseEntity {
         this.dayMenu = dayMenu;
         this.user = user;
     }
-
-    //    public Vote(LocalDateTime localDateTime, DayMenu dayMenu, User user) {
-//        this.localDateTime = localDateTime;
-//        this.dayMenu = dayMenu;
-//        this.user = user;
-//    }
-//
-//    public Vote(Integer id, LocalDateTime localDateTime, DayMenu dayMenu, User user) {
-//        super(id);
-//        this.localDateTime = localDateTime;
-//        this.dayMenu = dayMenu;
-//        this.user = user;
-//    }
-//
-//    public LocalDateTime getLocalDateTime() {
-//        return localDateTime;
-//    }
-//
-//    public void setLocalDateTime(LocalDateTime localDateTime) {
-//        this.localDateTime = localDateTime;
-//    }
 
     public DayMenu getDayMenu() {
         return dayMenu;
