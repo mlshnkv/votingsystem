@@ -10,39 +10,39 @@ import java.time.LocalDate;
 import java.util.Set;
 
 @Entity
-@Table(name = "day_menus")
-public class DayMenu extends AbstractBaseEntity {
+@Table(name = "menus")
+public class Menu extends AbstractBaseEntity {
     @Column(name = "date", columnDefinition = "timestamp default now()")
     private LocalDate date;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference(value = "restaurant-dayMenu")
+    @JsonBackReference(value = "restaurant-menu")
 //    @NotNull
     private Restaurant restaurant;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu", cascade = CascadeType.REMOVE)
 //, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonManagedReference(value = "dayMenu-dish")
+    @JsonManagedReference(value = "menu-dish")
     // @JsonDeserialize(as = List.class)
     private Set<Dish> dishes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu", cascade = CascadeType.REMOVE)
     //, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonManagedReference(value = "dayMenu-vote")
+    @JsonManagedReference(value = "menu-vote")
     private Set<Vote> votes;
 
-    public DayMenu() {
+    public Menu() {
     }
 
-    public DayMenu(LocalDate date, Restaurant restaurant, Set<Dish> dishes) {
+    public Menu(LocalDate date, Restaurant restaurant, Set<Dish> dishes) {
         this.date = date;
         this.restaurant = restaurant;
         this.dishes = dishes;
     }
 
-    public DayMenu(Integer id, LocalDate date, Restaurant restaurant, Set<Dish> dishes) {
+    public Menu(Integer id, LocalDate date, Restaurant restaurant, Set<Dish> dishes) {
         super(id);
         this.date = date;
         this.restaurant = restaurant;
@@ -69,8 +69,8 @@ public class DayMenu extends AbstractBaseEntity {
         return dishes;
     }
 
-    public void setDishes(Set<Dish> dayMenu) {
-        this.dishes = dayMenu;
+    public void setDishes(Set<Dish> dishes) {
+        this.dishes = dishes;
     }
 
     public Set<Vote> getVotes() {
@@ -83,10 +83,10 @@ public class DayMenu extends AbstractBaseEntity {
 
     @Override
     public String toString() {
-        return "DayMenu{" +
+        return "Menu{" +
                 "date=" + date +
                 ", restaurant=" + restaurant +
-                ", dayMenu=" + dishes +
+                ", menu=" + dishes +
                 ", votes=" + votes +
                 ", id=" + id +
                 '}';

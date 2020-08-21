@@ -1,22 +1,22 @@
 package org.moloshnikov.votingsystem.repository.daymenu;
 
-import org.moloshnikov.votingsystem.model.DayMenu;
+import org.moloshnikov.votingsystem.model.Menu;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public class DayMenuRepositoryImpl implements DayMenuRepository {
+public class MenuRepositoryImpl implements MenuRepository {
     private final CrudMenuRepository crudMenuRepository;
 
-    public DayMenuRepositoryImpl(CrudMenuRepository crudMenuRepository) {
+    public MenuRepositoryImpl(CrudMenuRepository crudMenuRepository) {
         this.crudMenuRepository = crudMenuRepository;
     }
 
     @Override
-    public DayMenu save(DayMenu dayMenu) {
-        return crudMenuRepository.save(dayMenu);
+    public Menu save(Menu menu) {
+        return crudMenuRepository.save(menu);
     }
 
     @Override
@@ -25,18 +25,18 @@ public class DayMenuRepositoryImpl implements DayMenuRepository {
     }
 
     @Override
-    public DayMenu get(int id) {
+    public Menu get(int id) {
         return crudMenuRepository.get(id);
     }
 
     @Override
-    public List<DayMenu> getAll() {
+    public List<Menu> getAll() {
         return crudMenuRepository.getAll();
         //return crudMenuRepository.findAll();
     }
 
     @Override
-    public List<DayMenu> getAllByDate(LocalDate localDate) {
+    public List<Menu> getAllByDate(LocalDate localDate) {
         return crudMenuRepository.getAllByDate(localDate);
     }
 

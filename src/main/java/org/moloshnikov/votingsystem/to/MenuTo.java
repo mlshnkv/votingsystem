@@ -4,21 +4,20 @@ import org.moloshnikov.votingsystem.model.Dish;
 import org.moloshnikov.votingsystem.model.Restaurant;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
-public class DayMenuTo {
+public class MenuTo {
     private final int id;
     private final LocalDate date;
     private final Restaurant restaurant;
-    private final Set<Dish> dayMenu;
+    private final Set<Dish> menu;
     private final int votes;
 
-    public DayMenuTo(int id, LocalDate date, Restaurant restaurant, Set<Dish> dayMenu, int votes) {
+    public MenuTo(int id, LocalDate date, Restaurant restaurant, Set<Dish> menu, int votes) {
         this.id = id;
         this.date = date;
         this.restaurant = restaurant;
-        this.dayMenu = dayMenu;
+        this.menu = menu;
         this.votes = votes;
     }
 
@@ -30,8 +29,8 @@ public class DayMenuTo {
         return restaurant;
     }
 
-    public Set<Dish> getDayMenu() {
-        return dayMenu;
+    public Set<Dish> getMenu() {
+        return menu;
     }
 
     public int getVotes() {
@@ -42,7 +41,7 @@ public class DayMenuTo {
     public String toString() {
         return "Ресторан: " + restaurant + ";\n"
                 + "Меню дня: " + "\n"
-                + dayMenu + "\n"
+                + menu + "\n"
                 + "Количаство голосов: " + votes;
     }
 

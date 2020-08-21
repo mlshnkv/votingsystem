@@ -7,11 +7,11 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public class DataJpaVoteRepository implements VoteRepository {
+public class VoteRepositoryImpl implements VoteRepository {
     private final CrudVotesRepository crudVotesRepository;
 
 
-    public DataJpaVoteRepository(CrudVotesRepository crudVotesRepository) {
+    public VoteRepositoryImpl(CrudVotesRepository crudVotesRepository) {
         this.crudVotesRepository = crudVotesRepository;
     }
 

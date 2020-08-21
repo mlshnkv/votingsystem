@@ -6,10 +6,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class DataJpaDIshRepository implements DishRepository {
+public class DIshRepositoryImpl implements DishRepository {
     private final CrudDishRepository crudDishRepository;
 
-    public DataJpaDIshRepository(CrudDishRepository crudDishRepository) {
+    public DIshRepositoryImpl(CrudDishRepository crudDishRepository) {
         this.crudDishRepository = crudDishRepository;
     }
 
@@ -34,11 +34,11 @@ public class DataJpaDIshRepository implements DishRepository {
     }
 
     @Override
-    public Dish getWithDayMenu(int id) {
+    public Dish getWithMenu(int id) {
         return crudDishRepository.getWithDayMenu(id);
     }
 
-    public List<Dish> getByDayMenu(int id) {
+    public List<Dish> getByMenu(int id) {
         return crudDishRepository.getByDayMenu(id);
     }
 }

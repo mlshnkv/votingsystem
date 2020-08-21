@@ -17,11 +17,11 @@ public class Dish extends AbstractNamedEntity {
     private int price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "day_menu_id", nullable = false)
+    @JoinColumn(name = "menu_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference(value = "dayMenu-dish")
+    @JsonBackReference(value = "menu-dish")
 //    @NotNull
-    private DayMenu dayMenu;
+    private Menu menu;
 
     public Dish() {
 
@@ -44,12 +44,12 @@ public class Dish extends AbstractNamedEntity {
         this.price = price;
     }
 
-    public DayMenu getDayMenu() {
-        return dayMenu;
+    public Menu getMenu() {
+        return menu;
     }
 
-    public void setDayMenu(DayMenu dayMenu) {
-        this.dayMenu = dayMenu;
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 
     @Override

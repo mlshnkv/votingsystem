@@ -13,8 +13,8 @@ public class Restaurant extends AbstractNamedEntity {
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE)
     // orphanRemoval = true)
-    @JsonManagedReference(value = "restaurant-dayMenu")
-    private Set<DayMenu> menus;
+    @JsonManagedReference(value = "restaurant-menu")
+    private Set<Menu> menus;
 
     public Restaurant() {
     }
@@ -23,11 +23,11 @@ public class Restaurant extends AbstractNamedEntity {
         super(null, name);
     }
 
-    public Set<DayMenu> getMenus() {
+    public Set<Menu> getMenus() {
         return menus;
     }
 
-    public void setMenus(Set<DayMenu> menus) {
+    public void setMenus(Set<Menu> menus) {
         this.menus = menus;
     }
 

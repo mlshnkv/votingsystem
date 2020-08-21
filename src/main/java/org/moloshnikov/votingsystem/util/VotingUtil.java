@@ -1,9 +1,9 @@
 package org.moloshnikov.votingsystem.util;
 
-import org.moloshnikov.votingsystem.model.DayMenu;
+import org.moloshnikov.votingsystem.model.Menu;
 import org.moloshnikov.votingsystem.model.User;
 import org.moloshnikov.votingsystem.model.Vote;
-import org.moloshnikov.votingsystem.to.DayMenuTo;
+import org.moloshnikov.votingsystem.to.MenuTo;
 import org.moloshnikov.votingsystem.util.exception.NotFoundException;
 
 import java.time.LocalDate;
@@ -15,23 +15,23 @@ import java.util.stream.Collectors;
 
 public class VotingUtil {
 
-    public static List<DayMenuTo> getTos(Collection<DayMenu> dayMenus) {
+    public static List<MenuTo> getTos(Collection<Menu> menus) {
 
-        return dayMenus.stream()
+        return menus.stream()
                 .map(VotingUtil::createTo)
                 .collect(Collectors.toList());
     }
 
-    public static DayMenuTo createTo(DayMenu dayMenu) {
-        return new DayMenuTo(dayMenu.getId(), dayMenu.getDate(), dayMenu.getRestaurant(), dayMenu.getDishes(), dayMenu.getVotes().size());
+    public static MenuTo createTo(Menu menu) {
+        return new MenuTo(menu.getId(), menu.getDate(), menu.getRestaurant(), menu.getDishes(), menu.getVotes().size());
     }
 
-    public static Vote makeVote(DayMenu dayMenu, User user) {
-        return new Vote(LocalDate.now(), LocalTime.now(), dayMenu, user);
+    public static Vote makeVote(Menu menu, User user) {
+        return new Vote(LocalDate.now(), LocalTime.now(), menu, user);
     }
 
-    public static void checkMenuAvailability(Set<DayMenu> menuList, DayMenu dayMenu) {
-        if (!menuList.contains(dayMenu)) {
+    public static void checkMenuAvailability(Set<Menu> menuList, Menu menu) {
+        if (!menuList.contains(menu)) {
             throw new NotFoundException("Sorry, this option was not found or does not exist");
         }
     }

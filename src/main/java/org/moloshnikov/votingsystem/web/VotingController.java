@@ -1,11 +1,11 @@
 package org.moloshnikov.votingsystem.web;
 
-import org.moloshnikov.votingsystem.model.DayMenu;
+import org.moloshnikov.votingsystem.model.Menu;
 import org.moloshnikov.votingsystem.model.Vote;
-import org.moloshnikov.votingsystem.repository.daymenu.DayMenuRepository;
+import org.moloshnikov.votingsystem.repository.daymenu.MenuRepository;
 import org.moloshnikov.votingsystem.repository.user.UserRepository;
 import org.moloshnikov.votingsystem.repository.vote.VoteRepository;
-import org.moloshnikov.votingsystem.to.DayMenuTo;
+import org.moloshnikov.votingsystem.to.MenuTo;
 import org.moloshnikov.votingsystem.util.SecurityUtil;
 import org.moloshnikov.votingsystem.util.ValidationUtil;
 import org.moloshnikov.votingsystem.util.VotingUtil;
@@ -27,37 +27,37 @@ public class VotingController {
     protected final Logger log = LoggerFactory.getLogger(VotingController.class);
     static final String REST_URL = "/profile/voting";
 
-    private final DayMenuRepository dayMenuRepository;
+    private final MenuRepository menuRepository;
     private final UserRepository userRepository;
     private final VoteRepository voteRepository;
 
-    public VotingController(DayMenuRepository dayMenuRepository, UserRepository userRepository, VoteRepository voteRepository) {
-        this.dayMenuRepository = dayMenuRepository;
+    public VotingController(MenuRepository menuRepository, UserRepository userRepository, VoteRepository voteRepository) {
+        this.menuRepository = menuRepository;
         this.userRepository = userRepository;
         this.voteRepository = voteRepository;
     }
 
     @GetMapping
-    public List<DayMenuTo> getAll() {
+    public List<MenuTo> getAll() {
         LocalDate localDateToday = LocalDate.now();
         log.info("getAll");
-        return VotingUtil.getTos(dayMenuRepository.getAllByDate(localDateToday));
+        return VotingUtil.getTos(menuRepository.getAllByDate(localDateToday));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> toVote(@RequestBody DayMenu dayMenu) {
-        log.info("create vote for dayMenu {}", dayMenu.getId());
+    public ResponseEntity<Vote> toVote(@RequestBody Menu menu) {
+        log.info("create vote for Menu {}", menu.getId());
         LocalDateTime now = LocalDateTime.now();
         int userId = SecurityUtil.authUserId();
         ValidationUtil.checkDeadLine(now.toLocalTime());
 
-        DayMenu selectedDayMenu = dayMenuRepository.get(dayMenu.id()); //получаю выбранное дневное меню
+        Menu selectedMenu = menuRepository.get(menu.id()); //получаю выбранное дневное меню
 
         Vote checkVote = voteRepository.getByUserIdDate(userId, now.toLocalDate());
         if (checkVote == null) {
-            checkVote = VotingUtil.makeVote(selectedDayMenu, userRepository.get(userId));
+            checkVote = VotingUtil.makeVote(selectedMenu, userRepository.get(userId));
         } else {
-            checkVote.setDayMenu(selectedDayMenu);
+            checkVote.setMenu(selectedMenu);
             checkVote.setLocalDate(now.toLocalDate());
             checkVote.setLocalTime(now.toLocalTime());
         }

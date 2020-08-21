@@ -1,37 +1,37 @@
 DELETE
 FROM dishes;
 DELETE
-FROM DAY_MENUS;
+FROM menus;
 DELETE
-FROM RESTAURANTS;
+FROM restaurants;
 DELETE
 FROM user_roles;
 DELETE
 FROM users;
-ALTER SEQUENCE GLOBAL_SEQ RESTART WITH 100000;
+ALTER SEQUENCE global_seq RESTART WITH 100000;
 
-INSERT INTO USERS (name, email, password)
+INSERT INTO users (name, email, password)
 VALUES ('User', 'user@yandex.ru', 'password'),
        ('Shmuser', 'shmuser@yandex.ru', 'password'),
        ('Admin', 'admin@gmail.com', 'admin');
 
-INSERT INTO USER_ROLES (role, user_id)
+INSERT INTO user_roles (role, user_id)
 VALUES ('USER', 100000),
        ('USER', 100001),
        ('ADMIN', 100002),
        ('USER', 100002);
 
-INSERT INTO RESTAURANTS (NAME)
+INSERT INTO restaurants (name)
 VALUES ('Ракушка'),
        ('Уголек');
 
-INSERT INTO DAY_MENUS(date, restaurant_id)
+INSERT INTO menus(date, restaurant_id)
 VALUES ('2020-08-20', 100003),
        ('2020-08-20', 100004),
        ('2020-08-21', 100003),
        ('2020-08-21', 100004);
 
-INSERT INTO DISHES (name, price, DAY_MENU_ID)
+INSERT INTO dishes (name, price, menu_id)
 VALUES ('Рыба', 100, 100005),
        ('Картофель', 80, 100005),
        ('Хлеб', 5, 100005),
@@ -45,7 +45,7 @@ VALUES ('Рыба', 100, 100005),
        ('Блины', 115, 100008),
        ('Оладьи', 120, 100008);
 
-INSERT INTO VOTES (DATE, TIME, USER_ID, DAY_MENU_ID)
+INSERT INTO votes (date, time, user_id, menu_id)
 VALUES ('2020-08-20', '10:00:00', 100000, 100005),
        ('2020-08-20', '10:00:00', 100001, 100005),
        ('2020-08-20', '10:00:00', 100002, 100005),

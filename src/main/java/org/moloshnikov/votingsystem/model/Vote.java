@@ -29,11 +29,11 @@ public class Vote extends AbstractBaseEntity {
     private LocalTime localTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "day_menu_id", nullable = false)
+    @JoinColumn(name = "menu_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference(value = "dayMenu-vote")
+    @JsonBackReference(value = "menu-vote")
 //    @NotNull
-    private DayMenu dayMenu;
+    private Menu menu;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
@@ -46,23 +46,23 @@ public class Vote extends AbstractBaseEntity {
 
     }
 
-    public Vote(@NotNull LocalDate localDate, @NotNull LocalTime localTime, DayMenu dayMenu, User user) {
+    public Vote(@NotNull LocalDate localDate, @NotNull LocalTime localTime, Menu menu, User user) {
         this.localDate = localDate;
         this.localTime = localTime;
-        this.dayMenu = dayMenu;
+        this.menu = menu;
         this.user = user;
     }
 
-    public Vote(Integer id, @NotNull LocalDate localDate, @NotNull LocalTime localTime, DayMenu dayMenu, User user) {
+    public Vote(Integer id, @NotNull LocalDate localDate, @NotNull LocalTime localTime, Menu menu, User user) {
         super(id);
         this.localDate = localDate;
         this.localTime = localTime;
-        this.dayMenu = dayMenu;
+        this.menu = menu;
         this.user = user;
     }
 
-    public DayMenu getDayMenu() {
-        return dayMenu;
+    public Menu getMenu() {
+        return menu;
     }
 
     public LocalDate getLocalDate() {
@@ -81,8 +81,8 @@ public class Vote extends AbstractBaseEntity {
         this.localTime = localTime;
     }
 
-    public void setDayMenu(DayMenu dayMenu) {
-        this.dayMenu = dayMenu;
+    public void setMenu(Menu menu) {
+        this.menu = menu;
     }
 
     public User getUser() {
@@ -98,7 +98,7 @@ public class Vote extends AbstractBaseEntity {
         return "Vote{" +
                 "localDate=" + localDate +
                 ", localTime=" + localTime +
-                ", dayMenu=" + dayMenu.id +
+                ", menu=" + menu.id +
 //                ", user=" + user +
                 ", id=" + id +
                 '}';
