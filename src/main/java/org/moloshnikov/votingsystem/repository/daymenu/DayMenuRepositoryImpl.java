@@ -31,7 +31,8 @@ public class DayMenuRepositoryImpl implements DayMenuRepository {
 
     @Override
     public List<DayMenu> getAll() {
-        return crudMenuRepository.findAll();
+        return crudMenuRepository.getAll();
+        //return crudMenuRepository.findAll();
     }
 
     @Override

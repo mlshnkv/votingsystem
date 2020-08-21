@@ -5,15 +5,16 @@ import org.moloshnikov.votingsystem.model.Restaurant;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public class DayMenuTo {
     private final int id;
     private final LocalDate date;
     private final Restaurant restaurant;
-    private final List<Dish> dayMenu;
+    private final Set<Dish> dayMenu;
     private final int votes;
 
-    public DayMenuTo(int id, LocalDate date, Restaurant restaurant, List<Dish> dayMenu, int votes) {
+    public DayMenuTo(int id, LocalDate date, Restaurant restaurant, Set<Dish> dayMenu, int votes) {
         this.id = id;
         this.date = date;
         this.restaurant = restaurant;
@@ -29,7 +30,7 @@ public class DayMenuTo {
         return restaurant;
     }
 
-    public List<Dish> getDayMenu() {
+    public Set<Dish> getDayMenu() {
         return dayMenu;
     }
 

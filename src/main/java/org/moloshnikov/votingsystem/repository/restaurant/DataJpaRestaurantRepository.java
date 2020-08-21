@@ -2,6 +2,7 @@ package org.moloshnikov.votingsystem.repository.restaurant;
 
 import org.moloshnikov.votingsystem.model.Restaurant;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 

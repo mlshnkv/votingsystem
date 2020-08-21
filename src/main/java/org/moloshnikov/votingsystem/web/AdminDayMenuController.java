@@ -37,7 +37,7 @@ public class AdminDayMenuController {
     public ResponseEntity<DayMenu> create(@RequestBody DayMenu dayMenu) {
         dayMenu.setDate(LocalDate.now());
         DayMenu created = dayMenuRepository.save(dayMenu);
-        for (Dish menu : created.getDayMenu()) {
+        for (Dish menu : created.getDishes()) {
             dishRepository.save(menu);
         }
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -51,11 +51,11 @@ public class AdminDayMenuController {
     public void update(@RequestBody DayMenu dayMenu, @PathVariable int id) {
         log.info("update {} with id={}", dayMenu, id);
         assureIdConsistent(dayMenu, id);
-        for (Dish menu : dayMenu.getDayMenu()) {
+        for (Dish menu : dayMenu.getDishes()) {
             dishRepository.save(menu);
         }
         for (Dish dish : dishRepository.getByDayMenu(dayMenu.getId())) {
-            if (!dayMenu.getDayMenu().contains(dish)) {
+            if (!dayMenu.getDishes().contains(dish)) {
                 dishRepository.delete(dish.getId());
             }
         }

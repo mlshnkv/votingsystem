@@ -2,13 +2,11 @@ package org.moloshnikov.votingsystem.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -17,38 +15,38 @@ public class DayMenu extends AbstractBaseEntity {
     @Column(name = "date", columnDefinition = "timestamp default now()")
     private LocalDate date;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference(value = "restaurant-dayMenu")
 //    @NotNull
     private Restaurant restaurant;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)
 //, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonManagedReference(value = "dayMenu-dish")
-    @JsonDeserialize(as = List.class)
-    private List<Dish> dayMenu;
+    // @JsonDeserialize(as = List.class)
+    private Set<Dish> dishes;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)
-//, cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "dayMenu", cascade = CascadeType.REMOVE)
+    //, cascade = CascadeType.REMOVE, orphanRemoval = true)
     @JsonManagedReference(value = "dayMenu-vote")
     private Set<Vote> votes;
 
     public DayMenu() {
     }
 
-    public DayMenu(LocalDate date, Restaurant restaurant, List<Dish> dayMenu) {
+    public DayMenu(LocalDate date, Restaurant restaurant, Set<Dish> dishes) {
         this.date = date;
         this.restaurant = restaurant;
-        this.dayMenu = dayMenu;
+        this.dishes = dishes;
     }
 
-    public DayMenu(Integer id, LocalDate date, Restaurant restaurant, List<Dish> dayMenu) {
+    public DayMenu(Integer id, LocalDate date, Restaurant restaurant, Set<Dish> dishes) {
         super(id);
         this.date = date;
         this.restaurant = restaurant;
-        this.dayMenu = dayMenu;
+        this.dishes = dishes;
     }
 
     public LocalDate getDate() {
@@ -67,12 +65,12 @@ public class DayMenu extends AbstractBaseEntity {
         this.restaurant = restaurant;
     }
 
-    public List<Dish> getDayMenu() {
-        return dayMenu;
+    public Set<Dish> getDishes() {
+        return dishes;
     }
 
-    public void setDayMenu(List<Dish> dayMenu) {
-        this.dayMenu = dayMenu;
+    public void setDishes(Set<Dish> dayMenu) {
+        this.dishes = dayMenu;
     }
 
     public Set<Vote> getVotes() {
@@ -88,7 +86,7 @@ public class DayMenu extends AbstractBaseEntity {
         return "DayMenu{" +
                 "date=" + date +
                 ", restaurant=" + restaurant +
-                ", dayMenu=" + dayMenu +
+                ", dayMenu=" + dishes +
                 ", votes=" + votes +
                 ", id=" + id +
                 '}';
