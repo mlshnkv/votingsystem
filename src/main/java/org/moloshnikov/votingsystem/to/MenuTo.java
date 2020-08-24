@@ -44,10 +44,4 @@ public class MenuTo {
                 + menu + "\n"
                 + "Количаство голосов: " + votes;
     }
-
-
-//    @Override
-//    public String toString() {
-//        return "Ресторан: " + restaurant + " - " + votes;
-//    }
 }

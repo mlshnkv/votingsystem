@@ -15,6 +15,9 @@ import java.util.stream.Collectors;
 
 public class VotingUtil {
 
+    public VotingUtil() {
+    }
+
     public static List<MenuTo> getTos(Collection<Menu> menus) {
 
         return menus.stream()

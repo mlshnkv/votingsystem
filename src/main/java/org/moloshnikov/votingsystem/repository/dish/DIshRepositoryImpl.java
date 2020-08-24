@@ -32,13 +32,4 @@ public class DIshRepositoryImpl implements DishRepository {
     public List<Dish> getAll() {
         return crudDishRepository.findAll();
     }
-
-    @Override
-    public Dish getWithMenu(int id) {
-        return crudDishRepository.getWithDayMenu(id);
-    }
-
-    public List<Dish> getByMenu(int id) {
-        return crudDishRepository.getByDayMenu(id);
-    }
 }

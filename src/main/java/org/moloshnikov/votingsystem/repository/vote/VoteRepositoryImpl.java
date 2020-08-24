@@ -21,8 +21,8 @@ public class VoteRepositoryImpl implements VoteRepository {
     }
 
     @Override
-    public boolean delete(int id) {
-        return false;
+    public boolean delete(int id, int userId) {
+        return crudVotesRepository.delete(id, userId) != 0;
     }
 
     @Override

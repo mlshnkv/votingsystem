@@ -39,13 +39,8 @@ public class User extends AbstractNamedEntity {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "user_roles_unique_idx")})
     @Column(name = "role")
     @ElementCollection(fetch = FetchType.EAGER)
-//    @Fetch(FetchMode.SUBSELECT)
     @BatchSize(size = 200)
     private Set<Role> roles;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")//, cascade = CascadeType.REMOVE, orphanRemoval = true)
-    @JsonManagedReference(value = "user-votes")
-    private List<Vote> votes;
 
     public User() {
     }

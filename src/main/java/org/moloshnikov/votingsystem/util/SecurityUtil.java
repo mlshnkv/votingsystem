@@ -17,8 +17,4 @@ public class SecurityUtil {
     public static void setAuthUserId(int id) {
         SecurityUtil.id = id;
     }
-
-//    public static int authUserCaloriesPerDay() {
-//        return DEFAULT_CALORIES_PER_DAY;
-//    }
 }

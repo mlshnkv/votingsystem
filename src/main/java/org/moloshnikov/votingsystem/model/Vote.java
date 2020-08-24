@@ -13,10 +13,6 @@ import java.time.LocalTime;
 @Entity
 @Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "votes_unique_user_idx")})
 public class Vote extends AbstractBaseEntity {
-//    @Column(name = "date_time", nullable = false)
-//    @NotNull
-//    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-//    private LocalDateTime localDateTime;
 
     @Column(name = "date", nullable = false)
     @NotNull
@@ -29,17 +25,17 @@ public class Vote extends AbstractBaseEntity {
     private LocalTime localTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_id", nullable = false)
+    @JoinColumn(name = "menu_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference(value = "menu-vote")
-//    @NotNull
+    @NotNull
     private Menu menu;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference(value = "user-votes")
-//    @NotNull
+    @NotNull
     private User user;
 
     public Vote() {

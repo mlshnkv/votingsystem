@@ -1,10 +1,9 @@
 package org.moloshnikov.votingsystem.web;
 
-import org.moloshnikov.votingsystem.model.Dish;
 import org.moloshnikov.votingsystem.model.Menu;
 import org.moloshnikov.votingsystem.repository.daymenu.MenuRepository;
-import org.moloshnikov.votingsystem.repository.dish.DishRepository;
 import org.moloshnikov.votingsystem.to.MenuTo;
+import org.moloshnikov.votingsystem.util.ValidationUtil;
 import org.moloshnikov.votingsystem.util.VotingUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +16,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 import static org.moloshnikov.votingsystem.util.ValidationUtil.assureIdConsistent;
 
@@ -24,22 +24,18 @@ import static org.moloshnikov.votingsystem.util.ValidationUtil.assureIdConsisten
 @RequestMapping(value = AdminMenuController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminMenuController {
     private final MenuRepository menuRepository;
-    private final DishRepository dishRepository;
     protected final Logger log = LoggerFactory.getLogger(VotingController.class);
     static final String REST_URL = "/admin/menu";
 
-    public AdminMenuController(MenuRepository menuRepository, DishRepository dishRepository) {
+    public AdminMenuController(MenuRepository menuRepository) {
         this.menuRepository = menuRepository;
-        this.dishRepository = dishRepository;
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Menu> create(@RequestBody Menu menu) {
-        menu.setDate(LocalDate.now());
+        ValidationUtil.checkDate(menu);
+
         Menu created = menuRepository.save(menu);
-        for (Dish dish : created.getDishes()) {
-            dishRepository.save(dish);
-        }
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -51,14 +47,6 @@ public class AdminMenuController {
     public void update(@RequestBody Menu menu, @PathVariable int id) {
         log.info("update {} with id={}", menu, id);
         assureIdConsistent(menu, id);
-        for (Dish dish : menu.getDishes()) {
-            dishRepository.save(dish);
-        }
-        for (Dish dish : dishRepository.getByMenu(menu.getId())) {
-            if (!menu.getDishes().contains(dish)) {
-                dishRepository.delete(dish.getId());
-            }
-        }
         menuRepository.save(menu);
 
     }
@@ -86,6 +74,8 @@ public class AdminMenuController {
     @GetMapping(value = "/filter")
     public List<MenuTo> getAllByDate(@RequestParam LocalDate date) {
         log.info("getAllByDate");
-        return VotingUtil.getTos(menuRepository.getAllByDate(date));
+        Set<Menu> temp = menuRepository.getAllByDate(date);
+        log.debug(temp.toString());
+        return VotingUtil.getTos(temp);
     }
 }

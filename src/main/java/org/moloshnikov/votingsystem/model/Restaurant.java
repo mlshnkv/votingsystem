@@ -12,7 +12,6 @@ public class Restaurant extends AbstractNamedEntity {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE)
-    // orphanRemoval = true)
     @JsonManagedReference(value = "restaurant-menu")
     private Set<Menu> menus;
 

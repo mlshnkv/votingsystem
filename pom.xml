@@ -10,6 +10,7 @@
     <packaging>war</packaging>
 
     <properties>
+        <postgresql.version>42.2.14</postgresql.version>
         <java.version>14</java.version>
         <spring.version>5.2.6.RELEASE</spring.version>
         <spring-data-jpa.version>2.3.2.RELEASE</spring-data-jpa.version>
@@ -157,6 +158,25 @@
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
             <version>2.4.0-b180830.0438</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat-jdbc</artifactId>
+            <version>${tomcat.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>runtime</scope>
         </dependency>
     </dependencies>
 </project>

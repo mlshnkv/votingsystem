@@ -3,7 +3,7 @@ package org.moloshnikov.votingsystem.repository.daymenu;
 import org.moloshnikov.votingsystem.model.Menu;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 public interface MenuRepository {
     Menu save(Menu menu);
@@ -15,7 +15,7 @@ public interface MenuRepository {
     Menu get(int id);
 
 
-    List<Menu> getAll();
+    Set<Menu> getAll();
 
-    List<Menu> getAllByDate(LocalDate localDate);
+    Set<Menu> getAllByDate(LocalDate localDate);
 }

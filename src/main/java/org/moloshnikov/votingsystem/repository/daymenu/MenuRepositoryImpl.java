@@ -4,7 +4,7 @@ import org.moloshnikov.votingsystem.model.Menu;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Repository
 public class MenuRepositoryImpl implements MenuRepository {
@@ -30,13 +30,12 @@ public class MenuRepositoryImpl implements MenuRepository {
     }
 
     @Override
-    public List<Menu> getAll() {
+    public Set<Menu> getAll() {
         return crudMenuRepository.getAll();
-        //return crudMenuRepository.findAll();
     }
 
     @Override
-    public List<Menu> getAllByDate(LocalDate localDate) {
+    public Set<Menu> getAllByDate(LocalDate localDate) {
         return crudMenuRepository.getAllByDate(localDate);
     }
 

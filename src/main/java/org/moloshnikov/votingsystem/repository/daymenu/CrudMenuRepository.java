@@ -9,24 +9,25 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
+@Transactional(readOnly = true)
 public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
 
     @EntityGraph(attributePaths = {"votes", "dishes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT m FROM Menu m JOIN FETCH m.restaurant WHERE m.date=:date")
-    List<Menu> getAllByDate(@Param("date") LocalDate localDate);
+    Set<Menu> getAllByDate(@Param("date") LocalDate localDate);
 
     @Modifying
     @Transactional
     @Query("DELETE FROM Menu m WHERE m.id=:id")
     int delete(@Param("id") int id);
 
-    @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(attributePaths = {"votes", "dishes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT m FROM Menu m JOIN FETCH m.restaurant where m.id=:id")
     Menu get(@Param("id") int id);
 
-    @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(attributePaths = {"votes", "dishes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT m FROM Menu m JOIN FETCH m.restaurant")
-    List<Menu> getAll();
+    Set<Menu> getAll();
 }
