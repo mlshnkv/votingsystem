@@ -1,19 +1,16 @@
 package org.moloshnikov.votingsystem.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import javax.persistence.*;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "restaurants")
 public class Restaurant extends AbstractNamedEntity {
 
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE)
-    @JsonManagedReference(value = "restaurant-menu")
-    private Set<Menu> menus;
+
+//    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant", cascade = CascadeType.REMOVE)
+////    @JsonManagedReference(value = "restaurant-menu")
+//    private List<Menu> menus;
 
     public Restaurant() {
     }
@@ -22,18 +19,16 @@ public class Restaurant extends AbstractNamedEntity {
         super(null, name);
     }
 
-    public Set<Menu> getMenus() {
-        return menus;
-    }
-
-    public void setMenus(Set<Menu> menus) {
-        this.menus = menus;
-    }
+//    public List<Menu> getMenus() {
+//        return menus;
+//    }
+//
+//    public void setMenus(List<Menu> menus) {
+//        this.menus = menus;
+//    }
 
     @Override
     public String toString() {
-        return "Restaurant{" +
-                "name='" + name + '\'' +
-                '}';
+        return name;
     }
 }

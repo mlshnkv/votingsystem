@@ -12,7 +12,10 @@ import java.util.Set;
 
 public class ValidationUtil {
 
+    public static final LocalTime DEAD_LINE = LocalTime.of(23, 59);
+
     private static final Validator validator;
+
 
     static {
         //  From Javadoc: implementations are thread-safe and instances are typically cached and reused.
@@ -36,6 +39,16 @@ public class ValidationUtil {
         checkNotFoundWithId(object != null, id);
         return object;
     }
+
+//    public static<T> T checkNotFoundWithDate(T object, LocalDate date){
+//        checkNotFoundWithDate(object != null, date);
+//        return object;
+//    }
+
+    public static void checkNotFoundWithDate(boolean found, LocalDate date) {
+        checkNotFound(found, "date=" + date);
+    }
+
 
     public static void checkNotFoundWithId(boolean found, int id) {
         checkNotFound(found, "id=" + id);
@@ -66,8 +79,6 @@ public class ValidationUtil {
             throw new IllegalArgumentException(bean + " must be with id=" + id);
         }
     }
-
-    public static final LocalTime DEAD_LINE = LocalTime.of(19, 0);
 
     public static void checkDate(Menu menu) {
         if (menu.getDate() == null) {

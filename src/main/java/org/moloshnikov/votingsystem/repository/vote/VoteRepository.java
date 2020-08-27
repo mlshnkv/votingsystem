@@ -10,7 +10,7 @@ public interface VoteRepository {
     Vote save(Vote vote);
 
     // false if not found
-    boolean delete(int id, int userId);
+    boolean delete(int userId, LocalDate localDate);
 
     // null if not found
     Vote get(int id);

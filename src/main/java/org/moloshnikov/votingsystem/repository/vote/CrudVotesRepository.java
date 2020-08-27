@@ -14,11 +14,12 @@ import java.util.List;
 public interface CrudVotesRepository extends JpaRepository<Vote, Integer> {
 
     @Modifying
-    @Query("DELETE FROM Vote v WHERE v.id=:id AND v.user.id=:userId")
-    int delete(@Param("id") int id, @Param("userId") int userId);
+    @Transactional
+    @Query("DELETE FROM Vote v WHERE v.user.id=:userId AND v.localDate=:date")
+    int delete(@Param("userId") int userId, @Param("date")LocalDate date);
 
-    //    @EntityGraph(attributePaths = {"meals"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT v FROM Vote v where v.localDate=:date")
+
+    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant where v.localDate=:date")
     List<Vote> getAllByDay(@Param("date") LocalDate localDate);
 
     @Query("SELECT v FROM Vote v WHERE v.user.id=:userId AND v.localDate=:date")

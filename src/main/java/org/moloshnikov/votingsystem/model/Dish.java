@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "dishes")
 public class Dish extends AbstractNamedEntity {
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     @Range(min = 10, max = 5000)
     @NotNull
     private int price;

@@ -21,8 +21,8 @@ public class VoteRepositoryImpl implements VoteRepository {
     }
 
     @Override
-    public boolean delete(int id, int userId) {
-        return crudVotesRepository.delete(id, userId) != 0;
+    public boolean delete(int userId, LocalDate localDate) {
+        return crudVotesRepository.delete(userId, localDate) != 0;
     }
 
     @Override
@@ -32,8 +32,7 @@ public class VoteRepositoryImpl implements VoteRepository {
 
     @Override
     public Vote getByUserIdDate(int userId, LocalDate localDate) {
-        Vote vote = crudVotesRepository.getByUserIdDate(userId, localDate);
-        return vote;
+        return crudVotesRepository.getByUserIdDate(userId, localDate);
     }
 
     @Override

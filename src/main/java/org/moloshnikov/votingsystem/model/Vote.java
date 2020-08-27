@@ -25,11 +25,11 @@ public class Vote extends AbstractBaseEntity {
     private LocalTime localTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_id")
+    @JoinColumn(name = "restaurant_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference(value = "menu-vote")
     @NotNull
-    private Menu menu;
+    private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -42,23 +42,19 @@ public class Vote extends AbstractBaseEntity {
 
     }
 
-    public Vote(@NotNull LocalDate localDate, @NotNull LocalTime localTime, Menu menu, User user) {
+    public Vote(@NotNull LocalDate localDate, @NotNull LocalTime localTime, Restaurant restaurant, User user) {
         this.localDate = localDate;
         this.localTime = localTime;
-        this.menu = menu;
+        this.restaurant = restaurant;
         this.user = user;
     }
 
-    public Vote(Integer id, @NotNull LocalDate localDate, @NotNull LocalTime localTime, Menu menu, User user) {
+    public Vote(Integer id, @NotNull LocalDate localDate, @NotNull LocalTime localTime, Restaurant restaurant, User user) {
         super(id);
         this.localDate = localDate;
         this.localTime = localTime;
-        this.menu = menu;
+        this.restaurant = restaurant;
         this.user = user;
-    }
-
-    public Menu getMenu() {
-        return menu;
     }
 
     public LocalDate getLocalDate() {
@@ -77,8 +73,12 @@ public class Vote extends AbstractBaseEntity {
         this.localTime = localTime;
     }
 
-    public void setMenu(Menu menu) {
-        this.menu = menu;
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public User getUser() {
@@ -87,16 +87,5 @@ public class Vote extends AbstractBaseEntity {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    @Override
-    public String toString() {
-        return "Vote{" +
-                "localDate=" + localDate +
-                ", localTime=" + localTime +
-                ", menu=" + menu.id +
-//                ", user=" + user +
-                ", id=" + id +
-                '}';
     }
 }

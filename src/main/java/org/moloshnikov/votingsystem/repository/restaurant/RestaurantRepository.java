@@ -16,5 +16,4 @@ public interface RestaurantRepository {
 
     List<Restaurant> getAll();
 
-    Restaurant getWithDayMenu(int id);
 }

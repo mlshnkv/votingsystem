@@ -3,19 +3,18 @@ package org.moloshnikov.votingsystem.repository.daymenu;
 import org.moloshnikov.votingsystem.model.Menu;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 public interface MenuRepository {
-    Menu save(Menu menu);
+    Menu save(Menu menu, int restaurantId);
 
     // false if not found
-    boolean delete(int id);
+    boolean delete(int restaurantId, int menuId);
 
     // null if not found
-    Menu get(int id);
+    Menu get(int restaurantId, int menuId);
 
+    List<Menu> getAll();
 
-    Set<Menu> getAll();
-
-    Set<Menu> getAllByDate(LocalDate localDate);
+    List<Menu> getAllByDate(LocalDate localDate);
 }

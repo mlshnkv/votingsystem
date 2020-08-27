@@ -9,25 +9,25 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Transactional(readOnly = true)
 public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
 
-    @EntityGraph(attributePaths = {"votes", "dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT m FROM Menu m JOIN FETCH m.restaurant WHERE m.date=:date")
-    Set<Menu> getAllByDate(@Param("date") LocalDate localDate);
-
-    @Modifying
-    @Transactional
-    @Query("DELETE FROM Menu m WHERE m.id=:id")
-    int delete(@Param("id") int id);
-
-    @EntityGraph(attributePaths = {"votes", "dishes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT m FROM Menu m JOIN FETCH m.restaurant where m.id=:id")
-    Menu get(@Param("id") int id);
+    List<Menu> getAllByDate(@Param("date") LocalDate date);
 
     @EntityGraph(attributePaths = {"votes", "dishes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT m FROM Menu m JOIN FETCH m.restaurant")
-    Set<Menu> getAll();
+    List<Menu> getAll();
+
+    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT m FROM Menu m JOIN FETCH m.restaurant WHERE m.id=:id AND m.restaurant.id=:restaurantId")
+    Menu get(@Param("restaurantId") int restaurantId, @Param("id") int id);
+
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Menu m WHERE m.id=:menuId AND m.restaurant.id=:restaurantId")
+    int delete(@Param("restaurantId") int restaurantId, @Param("menuId") int menuId);
 }
