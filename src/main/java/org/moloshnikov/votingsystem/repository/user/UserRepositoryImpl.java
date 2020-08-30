@@ -3,6 +3,7 @@ package org.moloshnikov.votingsystem.repository.user;
 import org.moloshnikov.votingsystem.model.User;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    @Transactional
     public User save(User user) {
         return crudRepository.save(user);
     }
@@ -39,9 +41,5 @@ public class UserRepositoryImpl implements UserRepository {
     public List<User> getAll() {
         return crudRepository.findAll(SORT_NAME_EMAIL);
     }
-
-    @Override
-    public User getWithVotes(int id) {
-        return crudRepository.getWithVotes(id);
-    }
 }
+

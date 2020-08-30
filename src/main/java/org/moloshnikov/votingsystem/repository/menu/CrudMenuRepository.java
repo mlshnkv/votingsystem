@@ -1,4 +1,4 @@
-package org.moloshnikov.votingsystem.repository.daymenu;
+package org.moloshnikov.votingsystem.repository.menu;
 
 import org.moloshnikov.votingsystem.model.Menu;
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -11,14 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
-@Transactional(readOnly = true)
 public interface CrudMenuRepository extends JpaRepository<Menu, Integer> {
 
-    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(attributePaths = "dishes", type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT m FROM Menu m JOIN FETCH m.restaurant WHERE m.date=:date")
     List<Menu> getAllByDate(@Param("date") LocalDate date);
 
-    @EntityGraph(attributePaths = {"votes", "dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @EntityGraph(attributePaths = "dishes", type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT m FROM Menu m JOIN FETCH m.restaurant")
     List<Menu> getAll();
 

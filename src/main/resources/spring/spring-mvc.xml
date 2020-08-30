@@ -7,6 +7,8 @@
 
     <context:component-scan base-package="org.moloshnikov.votingsystem.**.web"/>
     <context:component-scan base-package="org.moloshnikov.votingsystem.**.service"/>
+    <import resource="spring-cache.xml"/>
+    <import resource="spring-security.xml"/>
 
     <bean class="org.moloshnikov.votingsystem.web.json.JacksonObjectMapper" id="objectMapper"
           factory-method="getMapper"/>

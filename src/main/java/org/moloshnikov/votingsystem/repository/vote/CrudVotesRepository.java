@@ -10,19 +10,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.util.List;
 
-@Transactional(readOnly = true)
 public interface CrudVotesRepository extends JpaRepository<Vote, Integer> {
 
     @Modifying
     @Transactional
     @Query("DELETE FROM Vote v WHERE v.user.id=:userId AND v.localDate=:date")
-    int delete(@Param("userId") int userId, @Param("date")LocalDate date);
+    int delete(@Param("userId") int userId, @Param("date") LocalDate date);
 
 
-    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant where v.localDate=:date")
+    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.localDate=:date")
     List<Vote> getAllByDay(@Param("date") LocalDate localDate);
 
-    @Query("SELECT v FROM Vote v WHERE v.user.id=:userId AND v.localDate=:date")
+    @Query("SELECT v FROM Vote v JOIN FETCH v.restaurant WHERE v.user.id=:userId AND v.localDate=:date")
     Vote getByUserIdDate(@Param("userId") int userId, @Param("date") LocalDate date);
-
 }

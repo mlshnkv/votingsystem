@@ -3,7 +3,7 @@ package org.moloshnikov.votingsystem.service;
 import org.moloshnikov.votingsystem.model.Menu;
 import org.moloshnikov.votingsystem.model.Restaurant;
 import org.moloshnikov.votingsystem.model.Vote;
-import org.moloshnikov.votingsystem.repository.daymenu.MenuRepository;
+import org.moloshnikov.votingsystem.repository.menu.MenuRepository;
 import org.moloshnikov.votingsystem.repository.restaurant.RestaurantRepository;
 import org.moloshnikov.votingsystem.repository.user.UserRepository;
 import org.moloshnikov.votingsystem.repository.vote.VoteRepository;
@@ -11,8 +11,8 @@ import org.moloshnikov.votingsystem.to.RestaurantTo;
 import org.moloshnikov.votingsystem.util.SecurityUtil;
 import org.moloshnikov.votingsystem.util.ValidationUtil;
 import org.moloshnikov.votingsystem.util.VotingUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -25,7 +25,6 @@ import static org.moloshnikov.votingsystem.util.ValidationUtil.checkNotFoundWith
 
 @Service
 public class VoteService {
-    private final Logger log = LoggerFactory.getLogger(VoteService.class);
     private final VoteRepository voteRepository;
     private final MenuRepository menuRepository;
     private final UserRepository userRepository;
@@ -38,27 +37,17 @@ public class VoteService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    @Cacheable("votes")
     public List<RestaurantTo> getAll() {
         LocalDate date = LocalDate.now();
         List<Restaurant> restaurants = restaurantRepository.getAll();
-        for (Restaurant restaurant : restaurants) {
-            log.debug(restaurant.toString());
-        }
         List<Menu> menus = menuRepository.getAllByDate(date);
-        for (Menu menu : menus) {
-            log.debug(menu.toString());
-        }
-
         List<Vote> votes = voteRepository.getAllByDay(date);
-        log.debug(votes.toString());
-        List<RestaurantTo> restaurantTos = VotingUtil.getTos(restaurants, menus, votes);
-        for (RestaurantTo restaurantTo : restaurantTos) {
-            log.debug(restaurantTo.toString());
-        }
-        return restaurantTos;
+        return VotingUtil.getTos(restaurants, menus, votes);
     }
 
     @Transactional
+    @CacheEvict(value = "votes", allEntries = true)
     public void delete(int userId) {
         LocalDateTime now = LocalDateTime.now();
         ValidationUtil.checkDeadLine(now.toLocalTime());
@@ -66,6 +55,7 @@ public class VoteService {
     }
 
     @Transactional
+    @CacheEvict(value = "votes", allEntries = true)
     public Vote toVote(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must be not null");
         LocalDateTime now = LocalDateTime.now();

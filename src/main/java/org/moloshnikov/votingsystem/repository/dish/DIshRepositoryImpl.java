@@ -2,6 +2,7 @@ package org.moloshnikov.votingsystem.repository.dish;
 
 import org.moloshnikov.votingsystem.model.Dish;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ public class DIshRepositoryImpl implements DishRepository {
     }
 
     @Override
+    @Transactional
     public Dish save(Dish dish) {
         return crudDishRepository.save(dish);
     }

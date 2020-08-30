@@ -15,6 +15,14 @@ public class Restaurant extends AbstractNamedEntity {
     public Restaurant() {
     }
 
+    public Restaurant(Restaurant restaurant) {
+        this(restaurant.getId(), restaurant.getName());
+    }
+
+    public Restaurant(Integer id, String name) {
+        super(id, name);
+    }
+
     public Restaurant(String name) {
         super(null, name);
     }
@@ -27,8 +35,12 @@ public class Restaurant extends AbstractNamedEntity {
 //        this.menus = menus;
 //    }
 
+
     @Override
     public String toString() {
-        return name;
+        return "Restaurant{" +
+                "name='" + name + '\'' +
+                ", id=" + id +
+                '}';
     }
 }

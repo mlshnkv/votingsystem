@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -39,11 +40,11 @@ public class Menu extends AbstractBaseEntity {
         this.dishes = dishes;
     }
 
-    public Menu(Integer id, LocalDate date, Restaurant restaurant, List<Dish> dishes) {
+    public Menu(Integer id, LocalDate date, Restaurant restaurant, Dish... dishes) {
         super(id);
         this.date = date;
         this.restaurant = restaurant;
-        this.dishes = dishes;
+        this.dishes = Arrays.asList(dishes);
     }
 
 

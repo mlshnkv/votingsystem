@@ -17,7 +17,7 @@ import java.util.List;
 @RequestMapping(value = VotingController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VotingController {
     private final Logger log = LoggerFactory.getLogger(VotingController.class);
-    static final String REST_URL = "/profile/voting";
+    static final String REST_URL = "/voting";
 
     private final VoteService voteService;
 
@@ -35,15 +35,15 @@ public class VotingController {
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete() {
         int userId = SecurityUtil.authUserId();
-        log.info("delete vote for user {}", userId);
         voteService.delete(userId);
+        log.info("delete vote for user {}", userId);
+
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<String> toVote(@RequestBody Restaurant restaurant) {
-        log.info("give vote for menu {}", restaurant.getId());
         voteService.toVote(restaurant);
-
+        log.info("give vote for menu {}", restaurant.getId());
         return new ResponseEntity<>("Your vote is accepted.", HttpStatus.CREATED);
     }
 }
