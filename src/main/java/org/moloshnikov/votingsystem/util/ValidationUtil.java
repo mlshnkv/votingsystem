@@ -3,6 +3,7 @@ package org.moloshnikov.votingsystem.util;
 import org.moloshnikov.votingsystem.HasId;
 import org.moloshnikov.votingsystem.model.AbstractBaseEntity;
 import org.moloshnikov.votingsystem.model.Menu;
+import org.moloshnikov.votingsystem.util.exception.IllegalTimeException;
 import org.moloshnikov.votingsystem.util.exception.NotFoundException;
 
 import javax.validation.*;
@@ -12,7 +13,12 @@ import java.util.Set;
 
 public class ValidationUtil {
 
-    public static final LocalTime DEAD_LINE = LocalTime.of(23, 59);
+    public static void setDeadLine(LocalTime time) {
+        deadLine = time;
+    }
+
+    public static final LocalTime STUB_DEADLINE = LocalTime.of(23, 59);
+    public static LocalTime deadLine = STUB_DEADLINE;
 
     private static final Validator validator;
 
@@ -87,8 +93,8 @@ public class ValidationUtil {
     }
 
     public static void checkDeadLine(LocalTime taken) {
-        if (taken.isAfter(DEAD_LINE)) {
-            throw new NotFoundException(String.format("Sorry, after %s you cannot vote ", DEAD_LINE));
+        if (taken.isAfter(deadLine)) {
+            throw new IllegalTimeException(String.format("Sorry, after %s you cannot vote ", deadLine));
         }
     }
 }

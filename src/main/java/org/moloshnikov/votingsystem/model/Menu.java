@@ -1,5 +1,6 @@
 package org.moloshnikov.votingsystem.model;
 
+import com.sun.istack.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -18,7 +19,7 @@ public class Menu extends AbstractBaseEntity {
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
 //    @JsonBackReference(value = "restaurant-menu")
-//    @NotNull
+    @NotNull
     private Restaurant restaurant;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -29,8 +30,19 @@ public class Menu extends AbstractBaseEntity {
     public Menu() {
     }
 
+    public Menu(Menu menu) {
+        this(menu.getId(), menu.getDate(), menu.getRestaurant(), menu.getDishes());
+    }
+
     public Menu(List<Dish> dishes) {
         super(null);
+        this.dishes = dishes;
+    }
+
+    public Menu(int id, LocalDate date, Restaurant restaurant, List<Dish> dishes) {
+        this.id = id;
+        this.date = date;
+        this.restaurant = restaurant;
         this.dishes = dishes;
     }
 

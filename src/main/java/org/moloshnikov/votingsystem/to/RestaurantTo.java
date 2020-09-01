@@ -3,10 +3,10 @@ package org.moloshnikov.votingsystem.to;
 import org.moloshnikov.votingsystem.model.Dish;
 
 import java.util.List;
+import java.util.Objects;
 
 public class RestaurantTo {
     private int id;
-    //    private final LocalDate date;
     private String name;
     private List<Dish> menu;
     private int votes = 0;
@@ -25,11 +25,6 @@ public class RestaurantTo {
         this.menu = menu;
         this.votes = votes;
     }
-
-//    public LocalDate getDate() {
-//        return date;
-//    }
-
 
     public int getId() {
         return id;
@@ -71,5 +66,21 @@ public class RestaurantTo {
                 ", menu=" + menu +
                 ", votes=" + votes +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        RestaurantTo that = (RestaurantTo) o;
+        return id == that.id &&
+                votes == that.votes &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(menu, that.menu);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, menu, votes);
     }
 }

@@ -4,15 +4,17 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.moloshnikov.votingsystem.model.Restaurant;
 import org.moloshnikov.votingsystem.util.exception.NotFoundException;
+import org.moloshnikov.votingsystem.web.VotingController;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.moloshnikov.votingsystem.RestaurantTestData.*;
+import static org.moloshnikov.votingsystem.TestData.*;
 
 
 public class RestaurantServiceTest extends AbstractServiceTest {
+    private static final String REST_URL = VotingController.REST_URL + '/';
     @Autowired
     private RestaurantService service;
 

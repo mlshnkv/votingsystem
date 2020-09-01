@@ -7,10 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public class DIshRepositoryImpl implements DishRepository {
+public class DishRepositoryImpl implements DishRepository {
     private final CrudDishRepository crudDishRepository;
 
-    public DIshRepositoryImpl(CrudDishRepository crudDishRepository) {
+    public DishRepositoryImpl(CrudDishRepository crudDishRepository) {
         this.crudDishRepository = crudDishRepository;
     }
 

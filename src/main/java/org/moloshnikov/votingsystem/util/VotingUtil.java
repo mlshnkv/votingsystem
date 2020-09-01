@@ -9,7 +9,9 @@ import org.moloshnikov.votingsystem.to.RestaurantTo;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class VotingUtil {
 
@@ -36,7 +38,9 @@ public class VotingUtil {
             }
             restaurantTos.add(restaurantTo);
         }
-        return restaurantTos;
+        return restaurantTos.stream()
+                .sorted(Comparator.comparingInt(RestaurantTo::getVotes).reversed())
+                .collect(Collectors.toList());
     }
 
     public static Vote makeVote(Restaurant restaurant, User user) {

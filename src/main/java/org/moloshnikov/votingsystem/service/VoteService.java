@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.moloshnikov.votingsystem.util.ValidationUtil.checkNotFoundWithDate;
+import static org.moloshnikov.votingsystem.util.ValidationUtil.checkNotFoundWithId;
 
 @Service
 public class VoteService {
@@ -59,11 +60,11 @@ public class VoteService {
     public Vote toVote(Restaurant restaurant) {
         Assert.notNull(restaurant, "restaurant must be not null");
         LocalDateTime now = LocalDateTime.now();
-        int userId = SecurityUtil.authUserId();
         ValidationUtil.checkDeadLine(now.toLocalTime());
 
-        Restaurant selectedRestaurant = restaurantRepository.get(restaurant.id());
+        Restaurant selectedRestaurant = checkNotFoundWithId(restaurantRepository.get(restaurant.id()), restaurant.getId());
 
+        int userId = SecurityUtil.authUserId();
         Vote checkVote = voteRepository.getByUserIdDate(userId, now.toLocalDate());
         if (checkVote == null) {
             checkVote = VotingUtil.makeVote(selectedRestaurant, userRepository.get(userId));

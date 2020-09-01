@@ -73,7 +73,7 @@ public class AdminRestaurantController {
 
     @GetMapping(value = "/menus")
     public List<Menu> getMenuByDate(@RequestParam LocalDate date) {
-        log.info("get menus by date {}",date);
+        log.info("get menus by date {}", date);
         return menuService.getMenusByDate(date);
     }
 
@@ -104,6 +104,7 @@ public class AdminRestaurantController {
     }
 
     @PutMapping("/{restaurantId}/menus/{menuId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateMenu(@PathVariable int restaurantId, @PathVariable int menuId, @RequestBody Menu menu) {
         log.info("update menu {} with id={} for restaurant id={}", menu, menuId, restaurantId);
         assureIdConsistent(menu, menuId);

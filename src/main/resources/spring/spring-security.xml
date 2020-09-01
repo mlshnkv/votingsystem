@@ -9,7 +9,7 @@
         <intercept-url pattern="/**/admin/**" access="hasRole('ROLE_ADMIN')"/>
         <intercept-url pattern="/**/voting/**" access="isAuthenticated()"/>
         <csrf disabled="true"/>
-        <form-login default-target-url="/voting"/>
+        <!--        <form-login default-target-url="/voting"/>-->
     </http>
 
     <beans:bean name="noopEncoder" class="org.springframework.security.crypto.password.NoOpPasswordEncoder"/>

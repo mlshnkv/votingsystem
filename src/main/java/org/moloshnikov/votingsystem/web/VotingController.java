@@ -1,6 +1,7 @@
 package org.moloshnikov.votingsystem.web;
 
 import org.moloshnikov.votingsystem.model.Restaurant;
+import org.moloshnikov.votingsystem.model.Vote;
 import org.moloshnikov.votingsystem.service.VoteService;
 import org.moloshnikov.votingsystem.to.RestaurantTo;
 import org.moloshnikov.votingsystem.util.SecurityUtil;
@@ -17,7 +18,7 @@ import java.util.List;
 @RequestMapping(value = VotingController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VotingController {
     private final Logger log = LoggerFactory.getLogger(VotingController.class);
-    static final String REST_URL = "/voting";
+    public static final String REST_URL = "/voting";
 
     private final VoteService voteService;
 
@@ -37,14 +38,13 @@ public class VotingController {
         int userId = SecurityUtil.authUserId();
         voteService.delete(userId);
         log.info("delete vote for user {}", userId);
-
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> toVote(@RequestBody Restaurant restaurant) {
-        voteService.toVote(restaurant);
-        log.info("give vote for menu {}", restaurant.getId());
-        return new ResponseEntity<>("Your vote is accepted.", HttpStatus.CREATED);
+    public ResponseEntity<Vote> toVote(@RequestBody Restaurant restaurant) {
+        Vote vote = voteService.toVote(restaurant);
+        log.info("give vote for restaurant {}", vote.getRestaurant().getId());
+        return new ResponseEntity<>(vote, HttpStatus.CREATED);
     }
 }
 
