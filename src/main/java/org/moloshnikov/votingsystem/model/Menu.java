@@ -18,13 +18,11 @@ public class Menu extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-//    @JsonBackReference(value = "restaurant-menu")
     @NotNull
     private Restaurant restaurant;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "menu_id")
-//    @JsonDeserialize(as = ArrayList.class)
     private List<Dish> dishes;
 
     public Menu() {

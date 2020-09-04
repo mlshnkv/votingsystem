@@ -16,7 +16,6 @@ public class Dish extends AbstractNamedEntity {
     private int price;
 
     public Dish() {
-
     }
 
     public Dish(@Range(min = 10, max = 5000) @NotNull int price) {

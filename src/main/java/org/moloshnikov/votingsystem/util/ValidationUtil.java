@@ -17,7 +17,7 @@ public class ValidationUtil {
         deadLine = time;
     }
 
-    public static final LocalTime STUB_DEADLINE = LocalTime.of(23, 59);
+    public static final LocalTime STUB_DEADLINE = LocalTime.of(13, 59);
     public static LocalTime deadLine = STUB_DEADLINE;
 
     private static final Validator validator;
@@ -45,11 +45,6 @@ public class ValidationUtil {
         checkNotFoundWithId(object != null, id);
         return object;
     }
-
-//    public static<T> T checkNotFoundWithDate(T object, LocalDate date){
-//        checkNotFoundWithDate(object != null, date);
-//        return object;
-//    }
 
     public static void checkNotFoundWithDate(boolean found, LocalDate date) {
         checkNotFound(found, "date=" + date);
@@ -94,7 +89,7 @@ public class ValidationUtil {
 
     public static void checkDeadLine(LocalTime taken) {
         if (taken.isAfter(deadLine)) {
-            throw new IllegalTimeException(String.format("Sorry, after %s you cannot vote ", deadLine));
+            throw new IllegalTimeException(String.format("Sorry, after %s you cannot vote", deadLine));
         }
     }
 }
