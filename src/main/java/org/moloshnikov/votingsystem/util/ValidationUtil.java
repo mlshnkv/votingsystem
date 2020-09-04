@@ -17,7 +17,7 @@ public class ValidationUtil {
         deadLine = time;
     }
 
-    public static final LocalTime STUB_DEADLINE = LocalTime.of(13, 59);
+    public static final LocalTime STUB_DEADLINE = LocalTime.of(10, 59);
     public static LocalTime deadLine = STUB_DEADLINE;
 
     private static final Validator validator;
@@ -91,5 +91,16 @@ public class ValidationUtil {
         if (taken.isAfter(deadLine)) {
             throw new IllegalTimeException(String.format("Sorry, after %s you cannot vote", deadLine));
         }
+    }
+
+    //  http://stackoverflow.com/a/28565320/548473
+    public static Throwable getRootCause(Throwable t) {
+        Throwable result = t;
+        Throwable cause;
+
+        while (null != (cause = result.getCause()) && (result != cause)) {
+            result = cause;
+        }
+        return result;
     }
 }
