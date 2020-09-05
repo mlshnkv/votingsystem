@@ -2,11 +2,11 @@ package org.moloshnikov.votingsystem.to;
 
 import org.moloshnikov.votingsystem.model.Dish;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class RestaurantTo {
-    private int id;
+public class RestaurantTo extends BaseTo implements Serializable {
     private String name;
     private List<Dish> menu;
     private int votes = 0;
@@ -15,23 +15,15 @@ public class RestaurantTo {
     }
 
     public RestaurantTo(int id, String name) {
-        this.id = id;
+        super(id);
         this.name = name;
     }
 
     public RestaurantTo(int id, String name, List<Dish> menu, int votes) {
-        this.id = id;
+        super(id);
         this.name = name;
         this.menu = menu;
         this.votes = votes;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -73,8 +65,8 @@ public class RestaurantTo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RestaurantTo that = (RestaurantTo) o;
-        return id == that.id &&
-                votes == that.votes &&
+        return votes == that.votes &&
+                Objects.equals(id, that.id) &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(menu, that.menu);
     }

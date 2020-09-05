@@ -11,8 +11,8 @@ import java.time.LocalTime;
 
 import static org.moloshnikov.votingsystem.TestData.*;
 import static org.moloshnikov.votingsystem.TestUtil.userHttpBasic;
-import static org.moloshnikov.votingsystem.util.ValidationUtil.STUB_DEADLINE;
-import static org.moloshnikov.votingsystem.util.ValidationUtil.setDeadLine;
+import static org.moloshnikov.votingsystem.util.VotingUtil.STUB_DEADLINE;
+import static org.moloshnikov.votingsystem.util.VotingUtil.setDeadLine;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,9 +45,8 @@ class VotingControllerTest extends AbstractControllerTest {
         voteService.delete(USER_ID);
         perform(MockMvcRequestBuilders.delete(REST_URL)
                 .with(userHttpBasic(USER)))
-                .andExpect(status().isNotFound());
+                .andExpect(status().isUnprocessableEntity());
     }
-
 
     @Test
     void toVote() throws Exception {
@@ -60,7 +59,7 @@ class VotingControllerTest extends AbstractControllerTest {
 
     @Test
     void postDeadlineVote() throws Exception {
-        setDeadLine(LocalTime.now().minusNanos(1));
+        setDeadLine(LocalTime.now().minusNanos(10));
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(RESTAURANT_1_WITHOUT_NAME))

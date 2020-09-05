@@ -15,6 +15,13 @@ import java.util.stream.Collectors;
 
 public class VotingUtil {
 
+    public static final LocalTime STUB_DEADLINE = LocalTime.of(23, 59);
+    public static LocalTime deadLine = STUB_DEADLINE;
+
+    public static void setDeadLine(LocalTime time) {
+        deadLine = time;
+    }
+
     private VotingUtil() {
     }
 

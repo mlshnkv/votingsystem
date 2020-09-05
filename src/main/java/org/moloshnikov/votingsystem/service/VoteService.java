@@ -7,6 +7,7 @@ import org.moloshnikov.votingsystem.repository.menu.MenuRepository;
 import org.moloshnikov.votingsystem.repository.restaurant.RestaurantRepository;
 import org.moloshnikov.votingsystem.repository.user.UserRepository;
 import org.moloshnikov.votingsystem.repository.vote.VoteRepository;
+import org.moloshnikov.votingsystem.to.BaseTo;
 import org.moloshnikov.votingsystem.to.RestaurantTo;
 import org.moloshnikov.votingsystem.util.SecurityUtil;
 import org.moloshnikov.votingsystem.util.ValidationUtil;
@@ -57,7 +58,8 @@ public class VoteService {
 
     @Transactional
     @CacheEvict(value = "votes", allEntries = true)
-    public Vote toVote(Restaurant restaurant) {
+    public Vote toVote(Restaurant restaurantId) {
+        Restaurant restaurant = restaurantRepository.get(restaurantId.getId());
         Assert.notNull(restaurant, "restaurant must be not null");
         LocalDateTime now = LocalDateTime.now();
         ValidationUtil.checkDeadLine(now.toLocalTime());
@@ -65,6 +67,7 @@ public class VoteService {
         Restaurant selectedRestaurant = checkNotFoundWithId(restaurantRepository.get(restaurant.id()), restaurant.getId());
 
         int userId = SecurityUtil.authUserId();
+
         Vote checkVote = voteRepository.getByUserIdDate(userId, now.toLocalDate());
         if (checkVote == null) {
             checkVote = VotingUtil.makeVote(selectedRestaurant, userRepository.get(userId));

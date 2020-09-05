@@ -24,8 +24,8 @@ VALUES ('Ракушка'),
        ('Уголек');
 
 INSERT INTO menus(date, restaurant_id)
-VALUES (current_date - 1, 100002),
-       (current_date - 1, 100003),
+VALUES (NOW() - 1 DAY, 100002),
+       (NOW() - 1 DAY, 100003),
        (current_date, 100002),
        (current_date, 100003);
 
@@ -44,9 +44,9 @@ VALUES ('Рыба', 100, 100004),
        ('Оладьи', 120, 100007);
 
 INSERT INTO votes (date, time, user_id, restaurant_id)
-VALUES (current_date - 1, '10:00:00', 100000, 100002),
-       (current_date - 1, '10:00:00', 100001, 100002),
-       (current_date, '10:00:00', 100000, 100003),
-       (current_date, '10:00:00', 100001, 100003);
+VALUES (NOW() - 1 DAY, '10:00:00', 100000, 100002),
+       (NOW() - 1 DAY, '10:00:00', 100001, 100002),
+       (NOW(), '10:00:00', 100000, 100003),
+       (NOW(), '10:00:00', 100001, 100003);
 
 

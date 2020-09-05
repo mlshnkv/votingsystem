@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
@@ -45,7 +46,7 @@ public class AdminRestaurantController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> create(@RequestBody Restaurant restaurant) {
+    public ResponseEntity<Restaurant> create(@RequestBody @Valid Restaurant restaurant) {
         checkNew(restaurant);
         log.info("create {}", restaurant);
         Restaurant created = restaurantService.create(restaurant);
@@ -65,7 +66,7 @@ public class AdminRestaurantController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Restaurant restaurant, @PathVariable int id) {
+    public void update(@RequestBody @Valid Restaurant restaurant, @PathVariable int id) {
         log.info("update restaurant {} with id={}", restaurant, id);
         assureIdConsistent(restaurant, id);
         restaurantService.update(restaurant);

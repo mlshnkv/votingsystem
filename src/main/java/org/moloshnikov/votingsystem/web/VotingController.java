@@ -47,4 +47,3 @@ public class VotingController {
         return new ResponseEntity<>(vote, HttpStatus.CREATED);
     }
 }
-

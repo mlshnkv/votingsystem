@@ -10,7 +10,6 @@
     <packaging>war</packaging>
 
     <properties>
-        <postgresql.version>42.2.14</postgresql.version>
         <java.version>14</java.version>
         <spring.version>5.2.8.RELEASE</spring.version>
         <spring-data-jpa.version>2.3.2.RELEASE</spring-data-jpa.version>
@@ -99,7 +98,6 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-
 
         <!-- Logging with SLF4J & LogBack -->
         <dependency>
@@ -245,12 +243,6 @@
             <version>${json-path.version}</version>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <version>${postgresql.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-jdbc</artifactId>
@@ -264,4 +256,11 @@
             <scope>runtime</scope>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>internal.repo</id>
+            <name>Internal repo</name>
+            <url>file:///home/thara/testesb/in</url>
+        </repository>
+    </distributionManagement>
 </project>

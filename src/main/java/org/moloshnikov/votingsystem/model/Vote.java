@@ -15,12 +15,12 @@ import java.time.LocalTime;
 public class Vote extends AbstractBaseEntity {
 
     @Column(name = "date", nullable = false)
-    //@NotNull
+    @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate localDate;
 
     @Column(name = "time", nullable = false)
-    //@NotNull
+    @NotNull
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime localTime;
 
@@ -28,14 +28,14 @@ public class Vote extends AbstractBaseEntity {
     @JoinColumn(name = "restaurant_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference(value = "menu-vote")
-    //@NotNull
+    @NotNull
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference(value = "user-votes")
-    //@NotNull
+    @NotNull
     private User user;
 
     public Vote() {

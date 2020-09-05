@@ -1,6 +1,7 @@
 package org.moloshnikov.votingsystem.repository.menu;
 
 import org.moloshnikov.votingsystem.model.Menu;
+import org.moloshnikov.votingsystem.repository.restaurant.CrudRestaurantRepository;
 import org.moloshnikov.votingsystem.repository.restaurant.RestaurantRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,11 +12,11 @@ import java.util.List;
 @Repository
 public class MenuRepositoryImpl implements MenuRepository {
     private final CrudMenuRepository crudMenuRepository;
-    private final RestaurantRepository restaurantRepository;
+    private final CrudRestaurantRepository crudRestaurantRepository;
 
-    public MenuRepositoryImpl(CrudMenuRepository crudMenuRepository, RestaurantRepository restaurantRepository) {
+    public MenuRepositoryImpl(CrudMenuRepository crudMenuRepository, CrudRestaurantRepository crudRestaurantRepository) {
         this.crudMenuRepository = crudMenuRepository;
-        this.restaurantRepository = restaurantRepository;
+        this.crudRestaurantRepository = crudRestaurantRepository;
     }
 
     @Override
@@ -24,7 +25,7 @@ public class MenuRepositoryImpl implements MenuRepository {
         if (!menu.isNew() && get(restaurantId, menu.getId()) == null) {
             return null;
         }
-        menu.setRestaurant(restaurantRepository.get(restaurantId));
+        menu.setRestaurant(crudRestaurantRepository.getOne(restaurantId));
         return crudMenuRepository.save(menu);
     }
 

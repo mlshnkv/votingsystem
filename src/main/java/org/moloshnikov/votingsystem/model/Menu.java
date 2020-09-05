@@ -10,8 +10,9 @@ import java.util.Arrays;
 import java.util.List;
 
 @Entity
-@Table(name = "menus")
+@Table(name = "menus", uniqueConstraints = {@UniqueConstraint(columnNames = {"restaurant_id", "date"}, name = "menus_unique_idx")})
 public class Menu extends AbstractBaseEntity {
+
     @Column(name = "date", columnDefinition = "timestamp default now()")
     private LocalDate date;
 
