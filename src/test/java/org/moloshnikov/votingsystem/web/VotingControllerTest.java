@@ -35,31 +35,37 @@ class VotingControllerTest extends AbstractControllerTest {
 
     @Test
     void delete() throws Exception {
+        setDeadLine(LocalTime.now().plusMinutes(1));
         perform(MockMvcRequestBuilders.delete(REST_URL)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isNoContent());
+        setDeadLine(STUB_DEADLINE);
     }
 
     @Test
     void deleteNotFound() throws Exception {
+        setDeadLine(LocalTime.now().plusMinutes(1));
         voteService.delete(USER_ID);
         perform(MockMvcRequestBuilders.delete(REST_URL)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isUnprocessableEntity());
+        setDeadLine(STUB_DEADLINE);
     }
 
     @Test
     void toVote() throws Exception {
+        setDeadLine(LocalTime.now().plusMinutes(1));
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(RESTAURANT_1_WITHOUT_NAME))
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isCreated());
+        setDeadLine(STUB_DEADLINE);
     }
 
     @Test
     void postDeadlineVote() throws Exception {
-        setDeadLine(LocalTime.now().minusNanos(10));
+        setDeadLine(LocalTime.now().minusNanos(1));
         perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(RESTAURANT_1_WITHOUT_NAME))
