@@ -73,7 +73,7 @@ public class AdminRestaurantController {
     }
 
     @GetMapping(value = "/menus")
-    public List<Menu> getMenuByDate(@RequestParam LocalDate date) {
+    public List<Menu> getMenusByDate(@RequestParam LocalDate date) {
         log.info("get menus by date {}", date);
         return menuService.getMenusByDate(date);
     }
@@ -90,7 +90,7 @@ public class AdminRestaurantController {
         checkDate(menu);
         log.info("create {}", menu);
 
-        Menu created = menuService.createMenu(restaurantId, menu);
+        Menu created = menuService.save(restaurantId, menu);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/" + created.getRestaurant().getId() + "/menus/{id}")
                 .buildAndExpand(created.getId()).toUri();
@@ -109,6 +109,6 @@ public class AdminRestaurantController {
     public void updateMenu(@PathVariable int restaurantId, @PathVariable int menuId, @RequestBody Menu menu) {
         log.info("update menu {} with id={} for restaurant id={}", menu, menuId, restaurantId);
         assureIdConsistent(menu, menuId);
-        menuService.updateMenu(restaurantId, menu);
+        menuService.save(restaurantId, menu);
     }
 }

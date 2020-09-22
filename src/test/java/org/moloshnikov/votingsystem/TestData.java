@@ -85,7 +85,7 @@ public class TestData {
 
     public static final List<Vote> VOTES_TODAY = Arrays.asList(VOTE_3, VOTE_4);
 
-    public static final List<RestaurantTo> RESTAURANT_TOS_TODAY = VotingUtil.getTos(RESTAURANTS, MENUS_TODAY, VOTES_TODAY);
+    public static final List<RestaurantTo> RESTAURANT_TOS_TODAY = VotingUtil.getTos(MENUS_TODAY);
 
     public static Restaurant getNewRestaurant() {
         return new Restaurant(null, "Тестовый ресторан");

@@ -1,9 +1,10 @@
 package org.moloshnikov.votingsystem.service;
 
 import org.moloshnikov.votingsystem.model.Menu;
-import org.moloshnikov.votingsystem.repository.menu.MenuRepository;
-import org.springframework.cache.annotation.CacheEvict;
+import org.moloshnikov.votingsystem.repository.MenuRepository;
+import org.moloshnikov.votingsystem.repository.RestaurantRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
@@ -14,9 +15,11 @@ import static org.moloshnikov.votingsystem.util.ValidationUtil.checkNotFoundWith
 @Service
 public class MenuService {
     private final MenuRepository menuRepository;
+    private final RestaurantRepository restaurantRepository;
 
-    public MenuService(MenuRepository menuRepository) {
+    public MenuService(MenuRepository menuRepository, RestaurantRepository restaurantRepository) {
         this.menuRepository = menuRepository;
+        this.restaurantRepository = restaurantRepository;
     }
 
     public List<Menu> getMenusByDate(LocalDate date) {
@@ -27,20 +30,16 @@ public class MenuService {
         return checkNotFoundWithId(menuRepository.get(restaurantId, menuId), menuId);
     }
 
-    @CacheEvict(value = {"restaurants", "votes"}, allEntries = true)
-    public Menu createMenu(int restaurantId, Menu menu) {
+    public Menu save(int restaurantId, Menu menu) {
         Assert.notNull(menu, "menu must not be null");
-        return menuRepository.save(menu, restaurantId);
+        if (!menu.isNew() && menuRepository.get(restaurantId, menu.getId()) == null) {
+            return null;
+        }
+        menu.setRestaurant(restaurantRepository.getOne(restaurantId));
+        return menuRepository.save(menu);
     }
 
-    @CacheEvict(value = {"restaurants", "votes"}, allEntries = true)
     public void deleteMenu(int restaurantId, int menuId) {
         checkNotFoundWithId(menuRepository.delete(restaurantId, menuId), menuId);
-    }
-
-    @CacheEvict(value = {"restaurants", "votes"}, allEntries = true)
-    public void updateMenu(int restaurantId, Menu menu) {
-        Assert.notNull(menu, "menu must not be null");
-        checkNotFoundWithId(menuRepository.save(menu, restaurantId), menu.getId());
     }
 }

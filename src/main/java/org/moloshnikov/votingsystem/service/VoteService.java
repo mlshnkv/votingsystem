@@ -1,19 +1,14 @@
 package org.moloshnikov.votingsystem.service;
 
-import org.moloshnikov.votingsystem.model.Menu;
 import org.moloshnikov.votingsystem.model.Restaurant;
 import org.moloshnikov.votingsystem.model.Vote;
-import org.moloshnikov.votingsystem.repository.menu.MenuRepository;
-import org.moloshnikov.votingsystem.repository.restaurant.RestaurantRepository;
-import org.moloshnikov.votingsystem.repository.user.UserRepository;
-import org.moloshnikov.votingsystem.repository.vote.VoteRepository;
-import org.moloshnikov.votingsystem.to.BaseTo;
+import org.moloshnikov.votingsystem.repository.MenuRepository;
+import org.moloshnikov.votingsystem.repository.RestaurantRepository;
+import org.moloshnikov.votingsystem.repository.UserRepository;
+import org.moloshnikov.votingsystem.repository.VoteRepository;
 import org.moloshnikov.votingsystem.to.RestaurantTo;
-import org.moloshnikov.votingsystem.util.SecurityUtil;
 import org.moloshnikov.votingsystem.util.ValidationUtil;
 import org.moloshnikov.votingsystem.util.VotingUtil;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -39,38 +34,28 @@ public class VoteService {
         this.restaurantRepository = restaurantRepository;
     }
 
-    @Cacheable("votes")
     public List<RestaurantTo> getAll() {
-        LocalDate date = LocalDate.now();
-        List<Restaurant> restaurants = restaurantRepository.getAll();
-        List<Menu> menus = menuRepository.getAllByDate(date);
-        List<Vote> votes = voteRepository.getAllByDay(date);
-        return VotingUtil.getTos(restaurants, menus, votes);
+        return VotingUtil.getTos(menuRepository.getAllByDate(LocalDate.now()));
     }
 
-    @Transactional
-    @CacheEvict(value = "votes", allEntries = true)
     public void delete(int userId) {
         LocalDateTime now = LocalDateTime.now();
         ValidationUtil.checkDeadLine(now.toLocalTime());
-        checkNotFoundWithDate(voteRepository.delete(userId, now.toLocalDate()), now.toLocalDate());
+        checkNotFoundWithDate(voteRepository.delete(userId, now.toLocalDate()) != 0, now.toLocalDate());
     }
 
-    @Transactional
-    @CacheEvict(value = "votes", allEntries = true)
-    public Vote toVote(Restaurant restaurantId) {
-        Restaurant restaurant = restaurantRepository.get(restaurantId.getId());
+
+    public Vote toVote(Restaurant restaurantId, int userId) {
+        Restaurant restaurant = restaurantRepository.getOne(restaurantId.getId());
         Assert.notNull(restaurant, "restaurant must be not null");
         LocalDateTime now = LocalDateTime.now();
         ValidationUtil.checkDeadLine(now.toLocalTime());
 
-        Restaurant selectedRestaurant = checkNotFoundWithId(restaurantRepository.get(restaurant.id()), restaurant.getId());
-
-        int userId = SecurityUtil.authUserId();
+        Restaurant selectedRestaurant = checkNotFoundWithId(restaurant, restaurant.getId());
 
         Vote checkVote = voteRepository.getByUserIdDate(userId, now.toLocalDate());
         if (checkVote == null) {
-            checkVote = VotingUtil.makeVote(selectedRestaurant, userRepository.get(userId));
+            checkVote = VotingUtil.makeVote(selectedRestaurant, userRepository.findById(userId).orElse(null));
         } else {
             checkVote.setRestaurant(selectedRestaurant);
             checkVote.setLocalDate(now.toLocalDate());

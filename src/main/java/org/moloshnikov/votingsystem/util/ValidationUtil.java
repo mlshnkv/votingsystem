@@ -63,8 +63,7 @@ public class ValidationUtil {
     }
 
     public static void checkDeadLine(LocalTime taken) {
-        LocalTime dead = deadLine;
-        if (taken.isAfter(dead)) {
+        if (taken.isAfter(deadLine)) {
             throw new IllegalTimeException(String.format("Sorry, after %s you cannot vote", deadLine));
         }
     }

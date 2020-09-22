@@ -2,19 +2,19 @@ package org.moloshnikov.votingsystem.service;
 
 import org.moloshnikov.votingsystem.AuthorizedUser;
 import org.moloshnikov.votingsystem.model.User;
-import org.moloshnikov.votingsystem.repository.user.UserRepository;
+import org.moloshnikov.votingsystem.repository.UserRepository;
 import org.moloshnikov.votingsystem.to.UserTo;
 import org.moloshnikov.votingsystem.util.UserUtil;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
 
 import static org.moloshnikov.votingsystem.util.ValidationUtil.*;
-
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository repository;
@@ -38,7 +38,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User get(int id) {
-        return checkNotFoundWithId(repository.get(id), id);
+        return checkNotFoundWithId(repository.findById(id).orElse(null), id);
     }
 
     public User getByEmail(String email) {
@@ -47,7 +47,7 @@ public class UserService implements UserDetailsService {
     }
 
     public List<User> getAll() {
-        return repository.getAll();
+        return repository.findAll();
     }
 
     public void update(User user, int id) {

@@ -42,8 +42,13 @@ public class VotingController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> toVote(@RequestBody Restaurant restaurant) {
-        Vote vote = voteService.toVote(restaurant);
+        int userId = SecurityUtil.authUserId();
+        Vote vote = voteService.toVote(restaurant, userId);
         log.info("give vote for restaurant {}", vote.getRestaurant().getId());
         return new ResponseEntity<>(vote, HttpStatus.CREATED);
+    }
+    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void reVote(Restaurant restaurant) {
+        int userId = SecurityUtil.authUserId();
     }
 }
