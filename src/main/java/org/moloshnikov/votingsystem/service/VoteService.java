@@ -9,6 +9,7 @@ import org.moloshnikov.votingsystem.repository.VoteRepository;
 import org.moloshnikov.votingsystem.to.RestaurantTo;
 import org.moloshnikov.votingsystem.util.ValidationUtil;
 import org.moloshnikov.votingsystem.util.VotingUtil;
+import org.moloshnikov.votingsystem.util.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -44,23 +45,40 @@ public class VoteService {
         checkNotFoundWithDate(voteRepository.delete(userId, now.toLocalDate()) != 0, now.toLocalDate());
     }
 
+    public Vote get(LocalDate localDate, int userId) {
+        return voteRepository.getByUserIdDate(userId, localDate);
+    }
 
+    @Transactional
     public Vote toVote(Restaurant restaurantId, int userId) {
         Restaurant restaurant = restaurantRepository.getOne(restaurantId.getId());
         Assert.notNull(restaurant, "restaurant must be not null");
         LocalDateTime now = LocalDateTime.now();
-        ValidationUtil.checkDeadLine(now.toLocalTime());
-
+        Vote vote = voteRepository.getByUserIdDate(userId, now.toLocalDate());
         Restaurant selectedRestaurant = checkNotFoundWithId(restaurant, restaurant.getId());
-
-        Vote checkVote = voteRepository.getByUserIdDate(userId, now.toLocalDate());
-        if (checkVote == null) {
-            checkVote = VotingUtil.makeVote(selectedRestaurant, userRepository.findById(userId).orElse(null));
+        if (vote == null) {
+            vote = VotingUtil.makeVote(selectedRestaurant, userRepository.findById(userId).orElse(null));
         } else {
-            checkVote.setRestaurant(selectedRestaurant);
-            checkVote.setLocalDate(now.toLocalDate());
-            checkVote.setLocalTime(now.toLocalTime());
+            throw new NotFoundException("Sorry, you can only re-vote");
         }
-        return voteRepository.save(checkVote);
+        return voteRepository.save(vote);
+    }
+
+    @Transactional
+    public Vote reVote(Restaurant restaurantId, int userId) {
+        LocalDateTime now = LocalDateTime.now();
+        ValidationUtil.checkDeadLine(now.toLocalTime());
+        Restaurant restaurant = restaurantRepository.getOne(restaurantId.getId());
+        Assert.notNull(restaurant, "restaurant must be not null");
+        Vote vote = voteRepository.getByUserIdDate(userId, now.toLocalDate());
+        Restaurant selectedRestaurant = checkNotFoundWithId(restaurant, restaurant.getId());
+        if (vote == null) {
+            throw new NotFoundException("Sorry, you need to vote first");
+        } else {
+            vote.setRestaurant(selectedRestaurant);
+            vote.setLocalDate(now.toLocalDate());
+            vote.setLocalTime(now.toLocalTime());
+        }
+        return voteRepository.save(vote);
     }
 }

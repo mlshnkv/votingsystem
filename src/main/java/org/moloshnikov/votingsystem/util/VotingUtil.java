@@ -12,11 +12,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class VotingUtil {
+    public static final LocalTime ORIGINAL_TIME = LocalTime.of(11, 0);
+    public static LocalTime deadLine = ORIGINAL_TIME;
 
-    public static final LocalTime STUB_DEADLINE = LocalTime.of(11, 0);
-    public static LocalTime deadLine = STUB_DEADLINE;
-
-    public static void setDeadLine(LocalTime time) {
+    public static void setDeadLineForTest(LocalTime time) {
         deadLine = time;
     }
 

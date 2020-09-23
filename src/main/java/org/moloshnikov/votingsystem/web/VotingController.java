@@ -10,8 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -32,6 +34,13 @@ public class VotingController {
         return voteService.getAll();
     }
 
+    @GetMapping(value = "/date")
+    public Vote get(@RequestParam @Nullable LocalDate date) {
+        int userId = SecurityUtil.authUserId();
+        log.info("get vote for {}", date);
+        return voteService.get(date, userId);
+    }
+
     @DeleteMapping
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete() {
@@ -47,8 +56,12 @@ public class VotingController {
         log.info("give vote for restaurant {}", vote.getRestaurant().getId());
         return new ResponseEntity<>(vote, HttpStatus.CREATED);
     }
+
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void reVote(Restaurant restaurant) {
+    @ResponseStatus(value = HttpStatus.NO_CONTENT)
+    public void reVote(@RequestBody Restaurant restaurant) {
         int userId = SecurityUtil.authUserId();
+        Vote vote = voteService.reVote(restaurant, userId);
+        log.info("re-vote for restaurant {}", vote.getRestaurant().getId());
     }
 }

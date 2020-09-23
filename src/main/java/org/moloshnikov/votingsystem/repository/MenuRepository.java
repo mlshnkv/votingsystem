@@ -11,8 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+
 @Repository
+@Transactional(readOnly = true)
 public interface MenuRepository extends JpaRepository<Menu, Integer> {
+
     @EntityGraph(attributePaths = "dishes", type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT m FROM Menu m JOIN FETCH m.restaurant WHERE m.date=:date")
     List<Menu> getAllByDate(@Param("date") LocalDate date);
@@ -22,6 +25,7 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     Menu get(@Param("restaurantId") int restaurantId, @Param("id") int id);
 
     @Modifying
+    @Transactional
     @Query("DELETE FROM Menu m WHERE m.id=:menuId AND m.restaurant.id=:restaurantId")
     int delete(@Param("restaurantId") int restaurantId, @Param("menuId") int menuId);
 }

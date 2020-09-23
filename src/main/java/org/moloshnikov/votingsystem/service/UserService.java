@@ -9,12 +9,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
 
 import static org.moloshnikov.votingsystem.util.ValidationUtil.*;
+
 @Service
 public class UserService implements UserDetailsService {
     private final UserRepository repository;
@@ -34,7 +34,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void delete(int id) {
-        checkNotFoundWithId(repository.delete(id), id);
+        checkNotFoundWithId(repository.delete(id) != 0, id);
     }
 
     public User get(int id) {

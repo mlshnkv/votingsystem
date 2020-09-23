@@ -11,8 +11,8 @@ import java.time.LocalTime;
 
 import static org.moloshnikov.votingsystem.TestData.*;
 import static org.moloshnikov.votingsystem.TestUtil.userHttpBasic;
-import static org.moloshnikov.votingsystem.util.VotingUtil.STUB_DEADLINE;
-import static org.moloshnikov.votingsystem.util.VotingUtil.setDeadLine;
+import static org.moloshnikov.votingsystem.util.VotingUtil.ORIGINAL_TIME;
+import static org.moloshnikov.votingsystem.util.VotingUtil.setDeadLineForTest;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,43 +35,43 @@ class VotingControllerTest extends AbstractControllerTest {
 
     @Test
     void delete() throws Exception {
-        setDeadLine(LocalTime.now().plusMinutes(1));
+        setDeadLineForTest(LocalTime.now().plusMinutes(1));
         perform(MockMvcRequestBuilders.delete(REST_URL)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isNoContent());
-        setDeadLine(STUB_DEADLINE);
+        setDeadLineForTest(ORIGINAL_TIME);
     }
 
     @Test
     void deleteNotFound() throws Exception {
-        setDeadLine(LocalTime.now().plusMinutes(1));
+        setDeadLineForTest(LocalTime.now().plusMinutes(1));
         voteService.delete(USER_ID);
         perform(MockMvcRequestBuilders.delete(REST_URL)
                 .with(userHttpBasic(USER)))
                 .andExpect(status().isUnprocessableEntity());
-        setDeadLine(STUB_DEADLINE);
+        setDeadLineForTest(ORIGINAL_TIME);
     }
 
     @Test
-    void toVote() throws Exception {
-        setDeadLine(LocalTime.now().plusMinutes(1));
-        perform(MockMvcRequestBuilders.post(REST_URL)
+    void reVote() throws Exception {
+        setDeadLineForTest(LocalTime.now().plusMinutes(1));
+        perform(MockMvcRequestBuilders.put(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(RESTAURANT_1_WITHOUT_NAME))
                 .with(userHttpBasic(USER)))
-                .andExpect(status().isCreated());
-        setDeadLine(STUB_DEADLINE);
+                .andExpect(status().isNoContent());
+        setDeadLineForTest(ORIGINAL_TIME);
     }
 
     @Test
-    void postDeadlineVote() throws Exception {
-        setDeadLine(LocalTime.now().minusNanos(1));
-        perform(MockMvcRequestBuilders.post(REST_URL)
+    void putDeadlineVote() throws Exception {
+        setDeadLineForTest(LocalTime.now().minusNanos(1));
+        perform(MockMvcRequestBuilders.put(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(RESTAURANT_1_WITHOUT_NAME))
                 .with(userHttpBasic(USER)))
                 .andDo(print())
                 .andExpect(status().isMethodNotAllowed());
-        setDeadLine(STUB_DEADLINE);
+        setDeadLineForTest(ORIGINAL_TIME);
     }
 }

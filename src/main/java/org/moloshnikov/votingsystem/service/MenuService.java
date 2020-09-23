@@ -4,7 +4,6 @@ import org.moloshnikov.votingsystem.model.Menu;
 import org.moloshnikov.votingsystem.repository.MenuRepository;
 import org.moloshnikov.votingsystem.repository.RestaurantRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
@@ -40,6 +39,6 @@ public class MenuService {
     }
 
     public void deleteMenu(int restaurantId, int menuId) {
-        checkNotFoundWithId(menuRepository.delete(restaurantId, menuId), menuId);
+        checkNotFoundWithId(menuRepository.delete(restaurantId, menuId) != 0, menuId);
     }
 }

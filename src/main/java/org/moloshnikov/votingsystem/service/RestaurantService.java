@@ -3,7 +3,6 @@ package org.moloshnikov.votingsystem.service;
 import org.moloshnikov.votingsystem.model.Restaurant;
 import org.moloshnikov.votingsystem.repository.RestaurantRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.util.List;
@@ -39,6 +38,6 @@ public class RestaurantService {
     }
 
     public void delete(int id) {
-        checkNotFoundWithId(restaurantRepository.delete(id), id);
+        checkNotFoundWithId(restaurantRepository.delete(id) != 0, id);
     }
 }

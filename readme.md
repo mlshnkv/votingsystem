@@ -22,6 +22,22 @@ Each restaurant provides new menu each day.
 
 ### curl commands:
 
+###### Get a list of users
+
+`curl --location --request GET 'http://localhost:8080/votingsystem/admin/users' \
+--header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu'`
+
+###### Create user
+
+`curl --location --request POST 'http://localhost:8080/votingsystem/admin/users' \
+--header 'Authorization: Basic YWRtaW5AZ21haWwuY29tOmFkbWlu' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "Shmuser",
+    "email": "shmuzer@yandex.ru",
+    "password": "password"
+}'`
+
 ###### Get a list of today's menus
 
 `curl --location --request GET 'http://localhost:8080/votingsystem/voting' \
@@ -35,3 +51,9 @@ Each restaurant provides new menu each day.
 --data-raw '{
     "id": 100003
 }'`
+
+###### Get vote by date
+Where yyyy-MM-dd - today or yesterday
+
+`curl --location --request GET 'http://localhost:8080/votingsystem/voting/date?date=yyyy-MM-dd' \
+--header 'Authorization: Basic dXNlckB5YW5kZXgucnU6cGFzc3dvcmQ='`
