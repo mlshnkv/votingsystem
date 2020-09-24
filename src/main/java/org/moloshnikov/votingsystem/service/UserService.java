@@ -5,6 +5,10 @@ import org.moloshnikov.votingsystem.model.User;
 import org.moloshnikov.votingsystem.repository.UserRepository;
 import org.moloshnikov.votingsystem.to.UserTo;
 import org.moloshnikov.votingsystem.util.UserUtil;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,6 +20,7 @@ import java.util.List;
 import static org.moloshnikov.votingsystem.util.ValidationUtil.*;
 
 @Service
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserService implements UserDetailsService {
     private final UserRepository repository;
 
@@ -23,16 +28,19 @@ public class UserService implements UserDetailsService {
         this.repository = repository;
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public User create(User user) {
         Assert.notNull(user, "user must not be null");
         return repository.save(user);
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public User create(UserTo userTo) {
         Assert.notNull(userTo, "user must not be null");
         return create(UserUtil.createNewFromTo(userTo));
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void delete(int id) {
         checkNotFoundWithId(repository.delete(id) != 0, id);
     }
@@ -46,16 +54,19 @@ public class UserService implements UserDetailsService {
         return checkNotFound(repository.getByEmail(email), "email=" + email);
     }
 
+    @Cacheable("users")
     public List<User> getAll() {
         return repository.findAll();
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void update(User user, int id) {
         Assert.notNull(user, "user must not be null");
         assureIdConsistent(user, id);
         checkNotFoundWithId(repository.save(user), user.getId());
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     public void update(UserTo userTo, int userId) {
         User user = get(userTo.id());
         assureIdConsistent(userTo, userId);

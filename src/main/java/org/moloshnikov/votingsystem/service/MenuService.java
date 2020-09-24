@@ -21,6 +21,7 @@ public class MenuService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    //    @Cacheable("menus")
     public List<Menu> getMenusByDate(LocalDate date) {
         return menuRepository.getAllByDate(date);
     }
@@ -29,6 +30,7 @@ public class MenuService {
         return checkNotFoundWithId(menuRepository.get(restaurantId, menuId), menuId);
     }
 
+    //    @CacheEvict(value = "menus", allEntries = true)
     public Menu save(int restaurantId, Menu menu) {
         Assert.notNull(menu, "menu must not be null");
         if (!menu.isNew() && menuRepository.get(restaurantId, menu.getId()) == null) {
@@ -38,6 +40,7 @@ public class MenuService {
         return menuRepository.save(menu);
     }
 
+    //    @CacheEvict(value = "menus", allEntries = true)
     public void deleteMenu(int restaurantId, int menuId) {
         checkNotFoundWithId(menuRepository.delete(restaurantId, menuId) != 0, menuId);
     }

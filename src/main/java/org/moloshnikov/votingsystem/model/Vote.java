@@ -27,14 +27,13 @@ public class Vote extends AbstractBaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference(value = "menu-vote")
     @NotNull
     private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonBackReference(value = "user-votes")
+    @JsonBackReference
     @NotNull
     private User user;
 

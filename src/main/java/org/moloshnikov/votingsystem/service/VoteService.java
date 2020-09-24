@@ -2,13 +2,12 @@ package org.moloshnikov.votingsystem.service;
 
 import org.moloshnikov.votingsystem.model.Restaurant;
 import org.moloshnikov.votingsystem.model.Vote;
-import org.moloshnikov.votingsystem.repository.MenuRepository;
 import org.moloshnikov.votingsystem.repository.RestaurantRepository;
 import org.moloshnikov.votingsystem.repository.UserRepository;
 import org.moloshnikov.votingsystem.repository.VoteRepository;
-import org.moloshnikov.votingsystem.to.RestaurantTo;
 import org.moloshnikov.votingsystem.util.ValidationUtil;
 import org.moloshnikov.votingsystem.util.VotingUtil;
+import org.moloshnikov.votingsystem.util.exception.IllegalRequestDataException;
 import org.moloshnikov.votingsystem.util.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +15,6 @@ import org.springframework.util.Assert;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.moloshnikov.votingsystem.util.ValidationUtil.checkNotFoundWithDate;
 import static org.moloshnikov.votingsystem.util.ValidationUtil.checkNotFoundWithId;
@@ -24,19 +22,13 @@ import static org.moloshnikov.votingsystem.util.ValidationUtil.checkNotFoundWith
 @Service
 public class VoteService {
     private final VoteRepository voteRepository;
-    private final MenuRepository menuRepository;
     private final UserRepository userRepository;
     private final RestaurantRepository restaurantRepository;
 
-    public VoteService(VoteRepository voteRepository, MenuRepository menuRepository, UserRepository userRepository, RestaurantRepository restaurantRepository) {
+    public VoteService(VoteRepository voteRepository, UserRepository userRepository, RestaurantRepository restaurantRepository) {
         this.voteRepository = voteRepository;
-        this.menuRepository = menuRepository;
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
-    }
-
-    public List<RestaurantTo> getAll() {
-        return VotingUtil.getTos(menuRepository.getAllByDate(LocalDate.now()));
     }
 
     public void delete(int userId) {
@@ -46,7 +38,9 @@ public class VoteService {
     }
 
     public Vote get(LocalDate localDate, int userId) {
-        return voteRepository.getByUserIdDate(userId, localDate);
+        Vote vote = voteRepository.getByUserIdDate(userId, localDate);
+        Restaurant restaurant = vote.getRestaurant();
+        return vote;
     }
 
     @Transactional
@@ -59,7 +53,7 @@ public class VoteService {
         if (vote == null) {
             vote = VotingUtil.makeVote(selectedRestaurant, userRepository.findById(userId).orElse(null));
         } else {
-            throw new NotFoundException("Sorry, you can only re-vote");
+            throw new IllegalRequestDataException("Sorry, you can only re-vote");
         }
         return voteRepository.save(vote);
     }

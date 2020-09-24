@@ -2,9 +2,11 @@ package org.moloshnikov.votingsystem.web;
 
 import org.moloshnikov.votingsystem.model.Restaurant;
 import org.moloshnikov.votingsystem.model.Vote;
+import org.moloshnikov.votingsystem.service.MenuService;
 import org.moloshnikov.votingsystem.service.VoteService;
 import org.moloshnikov.votingsystem.to.RestaurantTo;
 import org.moloshnikov.votingsystem.util.SecurityUtil;
+import org.moloshnikov.votingsystem.util.VotingUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -23,15 +25,17 @@ public class VotingController {
     public static final String REST_URL = "/voting";
 
     private final VoteService voteService;
+    private final MenuService menuService;
 
-    public VotingController(VoteService voteService) {
+    public VotingController(VoteService voteService, MenuService menuService) {
         this.voteService = voteService;
+        this.menuService = menuService;
     }
 
     @GetMapping
     public List<RestaurantTo> getAll() {
         log.info("getAll");
-        return voteService.getAll();
+        return VotingUtil.getTos(menuService.getMenusByDate(LocalDate.now()));
     }
 
     @GetMapping(value = "/date")
