@@ -14,7 +14,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -58,7 +60,9 @@ public class VotingController {
         int userId = SecurityUtil.authUserId();
         Vote vote = voteService.toVote(restaurant, userId);
         log.info("give vote for restaurant {}", vote.getRestaurant().getId());
-        return new ResponseEntity<>(vote, HttpStatus.CREATED);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL).build().toUri();
+        return ResponseEntity.created(uriOfNewResource).body(vote);
     }
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

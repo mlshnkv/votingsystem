@@ -56,7 +56,7 @@ CREATE TABLE dishes
 );
 
 CREATE UNIQUE INDEX dishes_unique_idx
-    ON dishes (name, menu_id);
+    ON dishes (menu_id, name);
 
 CREATE TABLE votes
 (

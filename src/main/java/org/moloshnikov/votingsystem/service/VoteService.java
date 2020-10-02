@@ -39,7 +39,6 @@ public class VoteService {
 
     public Vote get(LocalDate localDate, int userId) {
         Vote vote = voteRepository.getByUserIdDate(userId, localDate);
-        Restaurant restaurant = vote.getRestaurant();
         return vote;
     }
 
@@ -62,17 +61,16 @@ public class VoteService {
     public Vote reVote(Restaurant restaurantId, int userId) {
         LocalDateTime now = LocalDateTime.now();
         ValidationUtil.checkDeadLine(now.toLocalTime());
-        Restaurant restaurant = restaurantRepository.getOne(restaurantId.getId());
-        Assert.notNull(restaurant, "restaurant must be not null");
         Vote vote = voteRepository.getByUserIdDate(userId, now.toLocalDate());
-        Restaurant selectedRestaurant = checkNotFoundWithId(restaurant, restaurant.getId());
         if (vote == null) {
             throw new NotFoundException("Sorry, you need to vote first");
-        } else {
+        }
+        Restaurant restaurant = restaurantRepository.getOne(restaurantId.getId());
+        Assert.notNull(restaurant, "restaurant must be not null");
+        Restaurant selectedRestaurant = checkNotFoundWithId(restaurant, restaurant.getId());
             vote.setRestaurant(selectedRestaurant);
             vote.setLocalDate(now.toLocalDate());
             vote.setLocalTime(now.toLocalTime());
-        }
         return voteRepository.save(vote);
     }
 }
